@@ -13,12 +13,13 @@ export default function LetterModal({ recipient, onSave, onClose }: Props) {
   const [author, setAuthor] = useState('');
 
   const handleSave = () => {
-    if (!author || !content) return alert('작성자와 내용을 입력해주세요.');
+    if (!author || !content) return console.log('작성자와 내용을 입력해주세요.');
     const letter: Letter = {
       id: Date.now().toString(),
       author,
       recipient,
       content,
+      createdAt: new Date().toISOString(),
     };
     onSave(letter);
     onClose();

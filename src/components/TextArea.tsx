@@ -38,7 +38,6 @@ export interface TextAreaProps extends Omit<
   variant?: 'default';
   textSize?: 'sm' | 'md' | 'lg';
   heightLines: number; // 줄 수
-  maxHeightLines?: number; // 줄 수
   radius?: 'md' | 'lg' | 'full';
   maxLength?: number;
   placeholder?: string;
@@ -56,13 +55,11 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function T
     variant = 'default',
     textSize = 'md',
     heightLines,
-    maxHeightLines,
     radius = 'md',
     onChange,
     onSubmit,
     ...rest
   },
-  forwardedRef
 ) {
   const lineHeight = LINE_HEIGHTS[textSize];
   const minHeight = lineHeight * heightLines;

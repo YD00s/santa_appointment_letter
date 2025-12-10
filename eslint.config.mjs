@@ -42,6 +42,11 @@ export default [
         Element: 'readonly',
         Node: 'readonly',
         NodeJS: 'readonly',
+        fetch: 'readonly',
+        Request: 'readonly',
+        Response: 'readonly',
+        navigator: 'readonly',
+        crypto: 'readonly',
       },
     },
     plugins: {

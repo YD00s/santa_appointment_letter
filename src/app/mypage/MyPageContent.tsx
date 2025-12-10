@@ -60,10 +60,10 @@ export default function MyPageContent() {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      alert('페이지 링크가 복사되었습니다!');
+      console.log('페이지 링크가 복사되었습니다!');
     } catch (err) {
       console.error(err);
-      alert('복사에 실패했습니다. 브라우저에서 지원되지 않을 수 있습니다.');
+      console.log('복사에 실패했습니다. 브라우저에서 지원되지 않을 수 있습니다.');
     }
   };
 

@@ -2,7 +2,7 @@
 import AuthButtons from '@/components/AuthButtons';
 import Button from '@/components/Button/Button';
 import { useAuth } from '@/hooks/useAuth';
-import { useGoogleLogin } from '@/hooks/useGoogleLogin';
+// import { useGoogleLogin } from '@/hooks/useGoogleLogin';
 import { useKakaoLogin } from '@/hooks/useKakaoLogin';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ export default function MainPageContent() {
   const [mounted, setMounted] = useState(false);
   const { isAuthenticated, isLoading, setAuthStatus } = useAuth();
   const { login: kakaoLogin } = useKakaoLogin();
-  const { login: googleLogin } = useGoogleLogin();
+  // const { login: googleLogin } = useGoogleLogin();
 
   useEffect(() => {
     setMounted(true);

@@ -26,7 +26,6 @@ export interface ButtonProps extends Omit<
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      children,
       className,
       icon,
       label,

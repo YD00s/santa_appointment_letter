@@ -1,4 +1,3 @@
-import { IconMap } from './SVGIcon/icons';
 
 interface Props {
   santaType: number;

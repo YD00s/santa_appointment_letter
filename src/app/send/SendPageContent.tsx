@@ -15,7 +15,7 @@ export default function SendPageContent() {
     //   }),
     // });
 
-    alert('친구에게 임명장을 보냈어!');
+    console.log('친구에게 임명장을 보냈어!');
   };
 
   return (

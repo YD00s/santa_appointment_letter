@@ -1,6 +1,5 @@
 'use client';
 import clsx from 'clsx';
-import React from 'react';
 
 type Theme = 'wall-1' | 'wall-2' | 'wall-3';
 type Floor = 'floor-1' | 'floor-2' | 'floor-3';
