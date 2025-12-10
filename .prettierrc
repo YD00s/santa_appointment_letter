@@ -1,0 +1,25 @@
+{
+  "importOrder": [
+    "^@utils/(.*)$",
+    "^@apis/(.*)$",
+    "^@hooks/(.*)$",
+    "^@recoils/(.*)$",
+    "^@pages/(.*)$",
+    "^@base/(.*)$",
+    "^@common/(.*)$",
+    "^@components/(.*)$",
+    "^@styles/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "semi": true,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["clsx", "tv"]
+}

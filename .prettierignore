@@ -1,0 +1,22 @@
+# 빌드 디렉토리
+.next
+dist
+
+# 의존성
+node_modules
+
+# 정적 파일
+public
+*.svg
+*.png
+
+# 환경설정 파일
+package-lock.json
+yarn.lock
+
+# Git 관련
+.git
+.github
+
+colorTokens.css
+typoTokens.css

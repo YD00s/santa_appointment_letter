@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+@import './custom/colors.css';
+
+@import './custom/colorTokens.css';
+
+/* === GLOBAL DEFAULT STYLES === */
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+}
+
+/*=== FONTS === */
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@theme {
+  --font-pretendard: Pretendard, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-pretendard;
+  }
+}
+
+/* ========== CUSTOM SCROLL BAR ========== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray200);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Firefox 대응 */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* 눈 효과 */
+.snow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+}
+.snow .flake {
+  position: absolute;
+  top: -10%;
+  background: white;
+  opacity: 0.9;
+  border-radius: 50%;
+  animation: fall 12s linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-10vh) translateX(0) rotate(0); }
+  100% { transform: translateY(110vh) translateX(30vw) rotate(360deg); }
+}

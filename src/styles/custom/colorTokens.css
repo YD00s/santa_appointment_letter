@@ -1,0 +1,42 @@
+@layer components {
+  /* ========== COMMON ========== */
+  /* text */
+  .text-default { @apply text-gray900; }
+  .text-placeholder { @apply text-gray500; }
+  
+  /* ========== BUTTON ========== */
+
+  /* kakao */
+  .bg-btn-kakao { @apply bg-[#FFE300]; }
+  .text-btn-kakao { @apply text-[#333B58]; }
+
+  /* google */
+  .bg-btn-google { @apply bg-white; }
+  .text-btn-google { @apply text-gray900; }
+  .border-btn-google { @apply text-gray900; }
+
+  /* primary */
+  .bg-btn-primary { @apply bg-red500; }
+  .bg-btn-primary:hover { @apply hover:bg-red600; }
+  .bg-btn-primary:focus { @apply focus:bg-red700; }
+  .bg-btn-primary:active{@apply active:bg-red600;}
+  .bg-btn-primary:disabled {@apply disabled:opacity-50; }
+
+  .text-btn-primary { @apply text-white; }
+  .text-btn-primary:hover { @apply hover:text-white; }
+  .text-btn-primary:focus { @apply focus:text-white; }
+  .text-btn-primary:active { @apply active:text-white; }
+  
+  /* secondary */
+  .bg-btn-secondary { @apply bg-white/20; }
+  .bg-btn-secondary:hover { @apply hover:bg-white/30; }
+  .bg-btn-secondary:focus { @apply focus:bg-white/40; }
+  .bg-btn-secondary:active { @apply active:bg-white/30; }
+  .bg-btn-secondary:disabled {@apply disabled:bg-white/10; }
+
+  .text-btn-secondary { @apply text-white; }
+  .text-btn-secondary:hover { @apply hover:text-white; }
+  .text-btn-secondary:focus { @apply focus:text-white; }
+  .text-btn-secondary:active { @apply active:text-white; }
+  .text-btn-secondary:disabled {@apply disabled:text-gray400; }
+}
