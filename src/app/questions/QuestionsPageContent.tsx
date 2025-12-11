@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/Button/Button';
-import QuestionCard from '@/components/QuestionCard';
+import QuestionCard from '@/app/questions/components/QuestionCard';
 import { useSanta } from '@/contexts/SantaContext';
 import { QUESTIONS } from '@/lib/questions';
 import { getSantaResult } from '@/lib/santas';

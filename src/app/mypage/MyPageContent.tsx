@@ -3,6 +3,7 @@
 import Button from '@/components/Button/Button';
 import Modal from '@/components/Modal/Modal';
 import { useEffect, useState } from 'react';
+import { useToast } from '@/contexts/ToastProvider';
 
 import EditTab from './components/EditTab';
 import Room from './components/Room';
@@ -14,6 +15,8 @@ export default function MyPageContent() {
   const [wallType, setWallType] = useState(0);
   const [objectType, setObjectType] = useState(0);
   const [floorType, setFloorType] = useState(0);
+
+  const {show} = useToast();
 
   useEffect(() => {
     const mockCertificates = Array.from({ length: 27 }).map((_, i) => {
@@ -40,6 +43,45 @@ export default function MyPageContent() {
     setCertificates(mockCertificates);
   }, []);
 
+  // 방 꾸미기 정보
+  useEffect(() => {
+    const fetchMyPageConfig = async () => {
+      try {
+        const res = await fetch('/api/mypage');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+
+        setWallType(data.wallType);
+        setFloorType(data.floorType);
+        setObjectType(data.objectType);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchMyPageConfig();
+  }, []);
+
+  const saveMyPageConfig = async () => {
+  try {
+    const res = await fetch('/api/mypage', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        wallType,
+        floorType,
+        objectType,
+      }),
+    });
+
+    if (!res.ok) throw new Error();
+    } catch (err) {
+      show('⚠️ 저장 중 오류가 발생했습니다.', 'error');
+    }
+  };
+
   const wallImages = [
     '/assets/images/wall1.png',
     '/assets/images/wall2.png',
@@ -60,12 +102,15 @@ export default function MyPageContent() {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      console.log('페이지 링크가 복사되었습니다!');
+      show('✅ 페이지 링크가 복사되었습니다!', 'success');
     } catch (err) {
       console.error(err);
-      console.log('복사에 실패했습니다. 브라우저에서 지원되지 않을 수 있습니다.');
+      show('😫페이지 링크 복사에 실패했습니다.', 'error');
+
     }
   };
+
+
 
   const closeModal = () => setSelected(null);
 

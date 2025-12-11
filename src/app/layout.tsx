@@ -1,5 +1,6 @@
 import { SantaProvider } from '@/contexts/SantaContext';
 import type { Metadata } from 'next';
+import { ToastProvider } from '@/contexts/ToastProvider';
 
 import '../styles/globals.css';
 
@@ -20,7 +21,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="custom-scrollbar">
-        <SantaProvider>{children}</SantaProvider>
+        <SantaProvider>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </SantaProvider>
       </body>
     </html>
   );

@@ -32,12 +32,12 @@ export default function Room({
           className="flex-1 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${wallImages[wallType]})` }}
         />
+        {/* 바닥 */}
         <div
           className="h-100 w-full bg-top"
           style={{ backgroundImage: `url(${floorImages[floorType]})` }}
         />
       </div>
-
       {/* 오브젝트 + 뱃지 */}
       <div className="absolute bottom-75 left-1/2 z-20 -translate-x-1/2">
         <div className="relative h-120 w-60">

@@ -1,4 +1,3 @@
-// components/QuestionCard.tsx
 'use client';
 
 interface Props {
@@ -21,7 +20,7 @@ export default function QuestionCard({ number, title, items, selected, onSelect 
           <button
             key={idx}
             onClick={() => onSelect(idx)}
-            className={`w-full cursor-pointer rounded-lg border p-4 text-left transition ${
+            className={`w-full whitespace-pre-line cursor-pointer rounded-lg border p-4 text-left transition ${
               selected === idx ? 'border-red500 bg-red50' : 'border-gray200 hover:bg-gray100'
             } `}
           >

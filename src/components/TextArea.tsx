@@ -46,7 +46,7 @@ export interface TextAreaProps extends Omit<
   onSubmit?: (e?: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(
+const TextArea = (
   {
     className,
     maxLength = 0,
@@ -59,8 +59,8 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function T
     onChange,
     onSubmit,
     ...rest
-  },
-) {
+  }:TextAreaProps
+) => {
   const lineHeight = LINE_HEIGHTS[textSize];
   const minHeight = lineHeight * heightLines;
 
@@ -103,6 +103,6 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function T
       )}
     </div>
   );
-});
+};
 
 export default TextArea;

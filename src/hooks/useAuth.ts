@@ -1,6 +1,6 @@
 'use client';
 import { cookies } from '@/lib/cookies';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/supabase';
 import { useEffect, useState } from 'react';
 
 export const useAuth = () => {
