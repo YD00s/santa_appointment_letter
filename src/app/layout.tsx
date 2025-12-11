@@ -4,6 +4,7 @@ import { ToastProvider } from '@/contexts/ToastProvider';
 import Script from 'next/script';
 
 import '../styles/globals.css';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
   title: '산타 테스트',
@@ -20,11 +21,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://developers.kakao.com/sdk/js/kakao.js"
           strategy='beforeInteractive'
           />
-        <SantaProvider>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
-        </SantaProvider>
+          <AuthProvider>
+            <SantaProvider>
+              <ToastProvider>
+                {children}
+              </ToastProvider>
+            </SantaProvider>
+          </AuthProvider>
       </body>
     </html>
   );

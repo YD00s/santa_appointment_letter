@@ -1,24 +1,26 @@
 'use client';
-import { Letter } from '@/types';
+import { Letter } from '@/types/Letter';
 import { useState } from 'react';
 
 interface Props {
-  recipient: string;
+  recipientName: string;
+  santaId: number;
   onSave: (letter: Letter) => void;
   onClose: () => void;
 }
 
-export default function LetterModal({ recipient, onSave, onClose }: Props) {
+export default function LetterModal({ recipientName, santaId, onSave, onClose }: Props) {
   const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
+  const [authorId, setAuthorId] = useState('');
 
   const handleSave = () => {
-    if (!author || !content) return console.log('작성자와 내용을 입력해주세요.');
+    if (!authorId || !content) return console.log('작성자와 내용을 입력해주세요.');
     const letter: Letter = {
       id: Date.now().toString(),
-      author,
-      recipient,
+      authorId,
+      recipientName,
       content,
+      santaId,
       createdAt: new Date().toISOString(),
     };
     onSave(letter);
@@ -32,8 +34,8 @@ export default function LetterModal({ recipient, onSave, onClose }: Props) {
         <input
           placeholder="작성자 이름"
           className="mb-2 w-full rounded border p-1"
-          value={author}
-          onChange={e => setAuthor(e.target.value)}
+          value={authorId}
+          onChange={e => setAuthorId(e.target.value)}
         />
         <textarea
           placeholder="편지 내용"

@@ -1,5 +1,6 @@
 'use client';
 import { supabase } from '@/lib/supabase/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 
 declare global {
@@ -17,6 +18,7 @@ interface LoginResult {
 
 export const useKakaoLogin = () => {
   const [isInitialized, setIsInitialized] = useState(false);
+  const { login: authLogin, logout: authLogout } = useAuth();
 
   useEffect(() => {
     const initKakao = () => {
@@ -37,7 +39,6 @@ export const useKakaoLogin = () => {
       }
     };
 
-    // SDK 로드 대기
     if (document.readyState === 'complete') {
       initKakao();
     } else {
@@ -58,22 +59,18 @@ export const useKakaoLogin = () => {
           success: async (authObj: any) => {
             console.log('✅ 카카오 로그인 성공:', authObj);
 
-            // 사용자 정보 가져오기
             window.Kakao.API.request({
               url: '/v2/user/me',
               success: async (response: any) => {
                 console.log('✅ 사용자 정보:', response);
 
                 try {
-                  // Supabase에 사용자 정보 저장/업데이트
                   const userData = {
                     kakao_id: response.id.toString(),
                     email: response.kakao_account?.email || null,
                     nickname: response.kakao_account?.profile?.nickname || null,
                     profile_image: response.kakao_account?.profile?.profile_image_url || null,
                   };
-
-                  // Supabase 연동 (아래 주석 해제)
 
                   const { data, error } = await supabase
                     .from('users')
@@ -95,10 +92,13 @@ export const useKakaoLogin = () => {
 
                   console.log('✅ Supabase 저장 성공:', data);
 
+                  // AuthContext에 로그인 상태 저장
+                  authLogin(userData);
+
                   resolve({
                     success: true,
                     provider: 'kakao',
-                    user: response,
+                    user: data,
                   });
                 } catch (error) {
                   console.error('❌ 사용자 정보 저장 오류:', error);
@@ -124,11 +124,7 @@ export const useKakaoLogin = () => {
   };
 
   const logout = () => {
-    if (window.Kakao?.Auth?.getAccessToken()) {
-      window.Kakao.Auth.logout(() => {
-        console.log('✅ 카카오 로그아웃 완료');
-      });
-    }
+    authLogout();
   };
 
   return { login, logout, isInitialized };

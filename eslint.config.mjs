@@ -49,6 +49,7 @@ export default [
         crypto: 'readonly',
         setTimeout:'readonly',
         clearTimeout:'readonly',
+        alert:'readonly',
       },
     },
     plugins: {

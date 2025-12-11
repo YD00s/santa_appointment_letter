@@ -1,34 +1,51 @@
 'use client';
 
-import { useSanta } from '@/contexts/SantaContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function ResultPageContent() {
   const router = useRouter();
-  const { result } = useSanta();
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const userId = params.userId as string;
+  
+  const [result, setResult] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // 결과가 없으면 질문 페이지로 리다이렉트
-  useEffect(() => {
-    if (!result) {
-      router.push('/questions');
+    
+    // URL에서 결과 데이터 가져오기
+    const resultData = searchParams.get('data');
+    if (resultData) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(resultData));
+        setResult(parsed);
+      } catch (error) {
+        console.error('결과 데이터 파싱 실패:', error);
+        router.push(`/mypage/${userId}/questions`);
+      }
+    } else {
+      // 결과가 없으면 질문 페이지로 리다이렉트
+      router.push(`/mypage/${userId}/questions`);
     }
-  }, [result, router]);
+  }, [searchParams, router, userId]);
 
   if (!result) return null;
 
   // 눈송이
   const snowflakes = Array.from({ length: 50 }).map((_, i) => ({
-    left: (i * 17.3) % 100, // 의사 랜덤 (일관성 유지)
-    size: (i % 3) + 5, // 2~4px
-    duration: (i % 10) + 10, // 10~19초
-    delay: i % 4, // 0~4초
+    left: (i * 17.3) % 100,
+    size: (i % 3) + 5,
+    duration: (i % 10) + 10,
+    delay: i % 4,
   }));
+
+  const handleGoToSend = () => {
+    // 결과 데이터를 send 페이지로 전달
+    const resultData = encodeURIComponent(JSON.stringify(result));
+    router.push(`/mypage/${userId}/send?data=${resultData}`);
+  };
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
@@ -72,19 +89,19 @@ export default function ResultPageContent() {
 
           {/* 자세한 설명 */}
           <div className="text-center">
-            <p className="text-[15px] leading-relaxed whitespace-pre-line text-gray-700">
+            <p className="whitespace-pre-line text-[15px] leading-relaxed text-gray-700">
               {result.description}
             </p>
           </div>
         </div>
 
         {/* 버튼 */}
-        <a
-          href="/send"
+        <button
+          onClick={handleGoToSend}
           className="mt-6 block w-full rounded-xl bg-red-600 py-4 text-center text-lg font-medium text-white shadow-lg transition-colors hover:bg-red-700"
         >
           친구에게 임명장 발급하기
-        </a>
+        </button>
       </div>
 
       <style jsx>{`
