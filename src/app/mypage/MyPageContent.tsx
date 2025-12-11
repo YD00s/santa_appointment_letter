@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/Button/Button';
-import Modal from '@/components/Modal';
+import Modal from '@/components/Modal/Modal';
 import { useEffect, useState } from 'react';
 
 import EditTab from './components/EditTab';
@@ -71,8 +71,8 @@ export default function MyPageContent() {
 
   return (
     <>
-      <div className="flex h-screen w-full flex-col">
-        <div className="relative flex-1">
+      <div className="relative flex h-190 w-full flex-col border">
+        <div>
           <Room
             wallType={wallType}
             floorType={floorType}
@@ -83,45 +83,47 @@ export default function MyPageContent() {
             certificates={certificates}
             onSelectCertificate={setSelected}
           />
-          {/* 타이틀 */}
-          <div className="absolute top-0 z-10 flex w-full justify-start p-2">
-            <div className="flex flex-col items-start">
-              <h1 className="w-fit rounded bg-[#b59059] px-3 py-2 text-3xl font-bold shadow-md">
-                내 산타 작업실
-              </h1>
-              <span>산타 임명장을 {certificates.length}개 받았어요!</span>
-            </div>
-          </div>
-
-          {/* 하단 메뉴: Room 안쪽에 넣으면 항상 Room 위에 떠있음 */}
-          <div className="absolute bottom-0 left-0 flex w-full justify-between p-4">
-            <Button
-              label="방 꾸미기"
-              className="mr-2 w-1/2"
-              onClick={e => {
-                toggleEditMode();
-                (e.currentTarget as HTMLButtonElement).blur(); // 클릭 후 포커스 제거
-              }}
-            />
-            <Button
-              label="공유하기"
-              className="ml-2 w-1/2"
-              onClick={e => {
-                copyLink();
-                (e.currentTarget as HTMLButtonElement).blur();
-              }}
-            />
+        </div>
+        {/* 타이틀 */}
+        <div className="absolute top-0 z-10 flex w-full justify-start p-2">
+          <div className="flex flex-col items-start">
+            <h1 className="w-fit rounded bg-[#b59059] px-3 py-2 text-3xl font-bold shadow-md">
+              내 산타 작업실
+            </h1>
+            <span>산타 임명장을 {certificates.length}개 받았어요!</span>
           </div>
         </div>
-        <EditTab
-          isEditMode={isEditMode}
-          wallImages={wallImages}
-          floorImages={floorImages}
-          objectImages={objectImages}
-          setWallType={setWallType}
-          setFloorType={setFloorType}
-          setObjectType={setObjectType}
-        />
+
+        {/* 하단 메뉴: Room 안쪽에 넣으면 항상 Room 위에 떠있음 */}
+        <div className="absolute bottom-0 left-0 flex w-full justify-between p-4">
+          <Button
+            label="방 꾸미기"
+            className="mr-2 w-1/2"
+            onClick={e => {
+              toggleEditMode();
+              (e.currentTarget as HTMLButtonElement).blur(); // 클릭 후 포커스 제거
+            }}
+          />
+          <Button
+            label="공유하기"
+            className="ml-2 w-1/2"
+            onClick={e => {
+              copyLink();
+              (e.currentTarget as HTMLButtonElement).blur();
+            }}
+          />
+        </div>
+        <div className="absolute -bottom-105 w-full bg-white">
+          <EditTab
+            isEditMode={isEditMode}
+            wallImages={wallImages}
+            floorImages={floorImages}
+            objectImages={objectImages}
+            setWallType={setWallType}
+            setFloorType={setFloorType}
+            setObjectType={setObjectType}
+          />
+        </div>
       </div>
       <Modal open={!!selected} onClose={closeModal}>
         {selected && (

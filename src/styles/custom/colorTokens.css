@@ -39,4 +39,16 @@
   .text-btn-secondary:focus { @apply focus:text-white; }
   .text-btn-secondary:active { @apply active:text-white; }
   .text-btn-secondary:disabled {@apply disabled:text-gray400; }
+
+  /* ghost */
+  .bg-btn-ghost { @apply bg-transparent; }
+  .bg-btn-ghost:hover { @apply hover:bg-transparent; }
+  .bg-btn-ghost:focus { @apply focus:bg-transparent; }
+  .bg-btn-ghost:active { @apply active:bg-transparent; }
+
+  .text-btn-ghost { @apply text-gray900; }
+  .text-btn-ghost:hover { @apply hover:text-gray800; }
+  .text-btn-ghost:focus { @apply focus:text-gray700; }
+  .text-btn-ghost:active { @apply active:text-gray800; }
+  .text-btn-ghost:disabled {@apply disabled:text-gray400; }
 }

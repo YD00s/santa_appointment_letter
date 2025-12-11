@@ -25,22 +25,22 @@ export default function Room({
   onSelectCertificate,
 }: RoomProps) {
   return (
-    <div className="relative min-h-screen w-full flex-1 overflow-hidden border">
+    <div className="relative h-220 w-full flex-1 overflow-hidden">
       {/* 배경(벽+바닥) */}
-      <div className="absolute inset-0 -z-10 flex flex-col">
+      <div className="-z-10 flex h-full flex-col">
         <div
-          className="h-195 bg-cover bg-center bg-no-repeat"
+          className="flex-1 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${wallImages[wallType]})` }}
         />
         <div
-          className="h-55 w-full bg-top"
+          className="h-100 w-full bg-top"
           style={{ backgroundImage: `url(${floorImages[floorType]})` }}
         />
       </div>
 
       {/* 오브젝트 + 뱃지 */}
-      <div className="absolute bottom-28 left-1/2 z-20 -translate-x-1/2">
-        <div className="relative h-200 w-100">
+      <div className="absolute bottom-75 left-1/2 z-20 -translate-x-1/2">
+        <div className="relative h-120 w-60">
           <Image
             src={objectImages[objectType]}
             alt="오브젝트"
@@ -50,10 +50,18 @@ export default function Room({
           />
 
           {certificates.slice(0, 12).map((item, index) => {
-            const topPx = 210 + Math.floor(index / 3) * 70;
-            const leftPx = 65 + (index % 3) * 70;
-            const topPercent = (topPx / 600) * 100;
+            const row = Math.floor(index / 3); // 0, 1, 2, 3 ...
+            const col = index % 3; // 0 = 왼쪽, 1 = 가운데, 2 = 오른쪽
+
+            const topPxBase = 205 + row * 70;
+            const leftPx = 65 + col * 70;
+
+            // 가운데 열(col === 1)만 아래로 15px 정도 이동
+            const topPxAdjusted = topPxBase + (col === 1 ? 10 : 0);
+
+            const topPercent = (topPxAdjusted / 600) * 100;
             const leftPercent = (leftPx / 300) * 100;
+
             return (
               <div
                 key={index}
