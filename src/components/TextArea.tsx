@@ -19,7 +19,7 @@ const wholeBoxStyle = tv({
 });
 
 export const textAreaStyle = tv({
-  base: 'placeholder:text-gray500 text-gray900 custom-scrollbar resize-none pr-3 focus:outline-none',
+  base: 'placeholder:text-gray500 text-gray900 custom-scrollbar w-full resize-none pr-3 focus:outline-none',
   variants: {
     textSize: {
       sm: 'font-body-sm',
@@ -46,21 +46,19 @@ export interface TextAreaProps extends Omit<
   onSubmit?: (e?: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextArea = (
-  {
-    className,
-    maxLength = 0,
-    placeholder = '무엇이든 물어보세요',
-    value,
-    variant = 'default',
-    textSize = 'md',
-    heightLines,
-    radius = 'md',
-    onChange,
-    onSubmit,
-    ...rest
-  }:TextAreaProps
-) => {
+const TextArea = ({
+  className,
+  maxLength = 0,
+  placeholder = '무엇이든 물어보세요',
+  value,
+  variant = 'default',
+  textSize = 'md',
+  heightLines,
+  radius = 'md',
+  onChange,
+  onSubmit,
+  ...rest
+}: TextAreaProps) => {
   const lineHeight = LINE_HEIGHTS[textSize];
   const minHeight = lineHeight * heightLines;
 
@@ -92,7 +90,7 @@ const TextArea = (
         <div
           className={clsx(
             'font-detail absolute right-2 bottom-2 select-none',
-            value.length > maxLength ? 'text-red200' : 'text-gray300'
+            value.length >= maxLength ? 'text-red200' : 'text-gray300'
           )}
           aria-live="polite"
           aria-atomic="true"

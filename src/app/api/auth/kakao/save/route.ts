@@ -1,36 +1,44 @@
-import { createClient } from '@supabase/supabase-js';
-import { NextRequest, NextResponse } from 'next/server';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // 서버 전용 키 사용
-);
+import {
+  handleServerError,
+  successResponse,
+  validateParams,
+} from '@/utils/server/handleServerError';
+import { createDefaultMypage, upsertUserByKakaoId } from '@/utils/server/safeFetch';
+import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const { kakaoId, email, nickname, profileImage } = await request.json();
+    const body = await request.json();
 
-    const { data, error } = await supabase
-      .from('users')
-      .upsert(
-        {
-          kakao_id: kakaoId,
-          email,
-          nickname,
-          profile_image: profileImage,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'kakao_id' }
-      )
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ success: false, error }, { status: 400 });
+    // 필수 파라미터 검증
+    const validation = validateParams(body, ['kakaoId']);
+    if (!validation.valid) {
+      return handleServerError('BAD_REQUEST', 'kakaoId 파라미터가 필요합니다.');
     }
 
-    return NextResponse.json({ success: true, user: data });
+    const { kakaoId } = body;
+
+    // 사용자 upsert
+    const { data: userData, error: userError } = await upsertUserByKakaoId(kakaoId);
+
+    if (userError) {
+      return handleServerError(
+        'INTERNAL_ERROR',
+        '사용자 정보 저장 중 오류가 발생했습니다.',
+        userError
+      );
+    }
+
+    // mypage 자동 생성 (이미 존재하면 무시)
+    const { error: mypageError } = await createDefaultMypage(userData!.id);
+
+    if (mypageError) {
+      console.error('Mypage creation error:', mypageError);
+      // mypage 생성 실패해도 사용자는 생성되었으므로 계속 진행
+    }
+
+    return successResponse({ success: true, user: userData });
   } catch (error) {
-    return NextResponse.json({ success: false, error }, { status: 500 });
+    return handleServerError('INTERNAL_ERROR', '서버 오류가 발생했습니다.', error);
   }
 }

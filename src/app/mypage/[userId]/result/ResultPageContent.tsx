@@ -1,6 +1,12 @@
 'use client';
 
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import Button from '@/components/Button/Button';
+import Divider from '@/components/Divider';
+import Spinner from '@/components/Spinner';
+import { usePageOwner } from '@/hooks/usePageOwner';
+import { getSantaById } from '@/lib/constants/santaData';
+import Image from 'next/image';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function ResultPageContent() {
@@ -8,30 +14,39 @@ export default function ResultPageContent() {
   const params = useParams();
   const searchParams = useSearchParams();
   const userId = params.userId as string;
-  
-  const [result, setResult] = useState<any>(null);
+
+  const { ownerInfo, isLoading: ownerLoading } = usePageOwner(userId);
+
+  const [santaId, setSantaId] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    
-    // URL에서 결과 데이터 가져오기
-    const resultData = searchParams.get('data');
-    if (resultData) {
-      try {
-        const parsed = JSON.parse(decodeURIComponent(resultData));
-        setResult(parsed);
-      } catch (error) {
-        console.error('결과 데이터 파싱 실패:', error);
-        router.push(`/mypage/${userId}/questions`);
+
+    // 방법 1: santaId가 직접 전달된 경우 (권장)
+    const directSantaId = searchParams.get('santaId');
+    if (directSantaId) {
+      const id = parseInt(directSantaId, 10);
+      if (!isNaN(id) && id >= 1 && id <= 8) {
+        setSantaId(id);
+        return;
       }
-    } else {
-      // 결과가 없으면 질문 페이지로 리다이렉트
-      router.push(`/mypage/${userId}/questions`);
     }
+
+    console.error('santaId 또는 data 파라미터 없음');
+    // router.push(`/mypage/${userId}/questions`);
   }, [searchParams, router, userId]);
 
-  if (!result) return null;
+  if (!santaId || ownerLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner size={50} />
+      </div>
+    );
+  }
+
+  const santa = getSantaById(santaId);
+  const ownerName = ownerInfo?.name || '산타';
 
   // 눈송이
   const snowflakes = Array.from({ length: 50 }).map((_, i) => ({
@@ -42,9 +57,7 @@ export default function ResultPageContent() {
   }));
 
   const handleGoToSend = () => {
-    // 결과 데이터를 send 페이지로 전달
-    const resultData = encodeURIComponent(JSON.stringify(result));
-    router.push(`/mypage/${userId}/send?data=${resultData}`);
+    router.push(`/mypage/${userId}/send?santaId=${santaId}`);
   };
 
   return (
@@ -69,39 +82,30 @@ export default function ResultPageContent() {
       )}
 
       {/* 결과 카드 */}
-      <div className="relative w-full max-w-lg">
-        <div className="rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm">
+      <div className="relative flex w-full max-w-lg flex-col gap-10">
+        <div className="flex flex-col gap-10 rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm">
           {/* 산타 이름 */}
           <div className="mb-6 text-center">
             <h1 className="mb-2 text-sm text-gray-500">당신은...</h1>
-            <h2 className="mb-4 text-3xl font-bold text-gray-900">{result.title}</h2>
+            <h2 className="mb-4 text-3xl font-bold text-gray-900">{santa.title}</h2>
           </div>
 
-          {/* 산타 이미지 영역 */}
+          {/* 산타 이미지 */}
           <div className="mb-8 flex justify-center">
-            <div className="flex h-48 w-48 items-center justify-center rounded-full bg-gradient-to-br from-red-100 to-red-200 shadow-lg">
-              <div className="text-7xl">🎅</div>
+            <div className="relative h-48 w-48">
+              <Image src={santa.image} alt={santa.title} fill className="object-contain" />
             </div>
           </div>
 
-          {/* 구분선 */}
-          <div className="mb-6 border-t border-gray-200"></div>
+          <Divider />
 
-          {/* 자세한 설명 */}
-          <div className="text-center">
-            <p className="whitespace-pre-line text-[15px] leading-relaxed text-gray-700">
-              {result.description}
-            </p>
+          <div className="text-start">
+            <p className="leading-relaxed whitespace-pre-line">{santa.description}</p>
           </div>
         </div>
 
         {/* 버튼 */}
-        <button
-          onClick={handleGoToSend}
-          className="mt-6 block w-full rounded-xl bg-red-600 py-4 text-center text-lg font-medium text-white shadow-lg transition-colors hover:bg-red-700"
-        >
-          친구에게 임명장 발급하기
-        </button>
+        <Button label={`${ownerName}에게 임명장 발급하기`} size="full" onClick={handleGoToSend} />
       </div>
 
       <style jsx>{`

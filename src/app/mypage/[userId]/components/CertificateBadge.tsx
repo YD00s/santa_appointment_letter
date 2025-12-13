@@ -1,6 +1,5 @@
-
 interface Props {
-  santaType: number;
+  santaId: number;
 }
 
 const COLOR_MAP: Record<number, string> = {
@@ -14,10 +13,10 @@ const COLOR_MAP: Record<number, string> = {
   8: '🔔',
 };
 
-export default function CertificateBadge({ santaType }: Props) {
+export default function CertificateBadge({ santaId }: Props) {
   return (
     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
-      {COLOR_MAP[santaType] ?? ''}
+      {COLOR_MAP[santaId] ?? ''}
     </div>
   );
 }

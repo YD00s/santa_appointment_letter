@@ -1,55 +1,40 @@
 'use client';
 
-import CertificateBadge from '@/components/CertificateBadge';
+import CertificateBadge from '@/app/mypage/[userId]/components/CertificateBadge';
+import { Certificate } from '@/types/Certificate';
+import { RoomImages } from '@/types/RoomAssets';
 import Image from 'next/image';
 
 interface RoomProps {
-  wallType: number;
-  floorType: number;
-  objectType: number;
-  wallImages: string[];
-  floorImages: string[];
-  objectImages: string[];
+  images: RoomImages;
   certificates: any[];
-  onSelectCertificate: (item: any) => void;
+  onSelectCertificate: (cert: Certificate) => void;
 }
 
-export default function Room({
-  wallType,
-  floorType,
-  objectType,
-  wallImages,
-  floorImages,
-  objectImages,
-  certificates,
-  onSelectCertificate,
-}: RoomProps) {
+export default function Room({ images, certificates, onSelectCertificate }: RoomProps) {
   return (
     <div className="relative h-220 w-full flex-1 overflow-hidden">
       {/* 배경(벽+바닥) */}
       <div className="-z-10 flex h-full flex-col">
         <div
           className="flex-1 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${wallImages[wallType]})` }}
+          style={{ backgroundImage: `url(${images.wall})` }}
         />
         {/* 바닥 */}
-        <div
-          className="h-100 w-full bg-top"
-          style={{ backgroundImage: `url(${floorImages[floorType]})` }}
-        />
+        <div className="h-100 w-full bg-top" style={{ backgroundImage: `url(${images.floor})` }} />
       </div>
       {/* 오브젝트 + 뱃지 */}
       <div className="absolute bottom-75 left-1/2 z-20 -translate-x-1/2">
         <div className="relative h-120 w-60">
           <Image
-            src={objectImages[objectType]}
+            src={images.object}
             alt="오브젝트"
             fill
             unoptimized
             className="pointer-events-none h-auto w-full"
           />
 
-          {certificates.slice(0, 12).map((item, index) => {
+          {certificates.slice(0, 12).map((cert, index) => {
             const row = Math.floor(index / 3); // 0, 1, 2, 3 ...
             const col = index % 3; // 0 = 왼쪽, 1 = 가운데, 2 = 오른쪽
 
@@ -67,9 +52,9 @@ export default function Room({
                 key={index}
                 className="absolute cursor-pointer rounded-full shadow-md"
                 style={{ top: `${topPercent}%`, left: `${leftPercent}%` }}
-                onClick={() => onSelectCertificate(item)}
+                onClick={() => onSelectCertificate(cert)}
               >
-                <CertificateBadge santaType={item.santaType} />
+                <CertificateBadge santaId={cert.santaId} />
               </div>
             );
           })}

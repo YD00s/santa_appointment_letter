@@ -1,35 +1,40 @@
 'use client';
 import AuthButtons from '@/components/AuthButtons';
-import Button from '@/components/Button/Button';
-import { useAuth } from '@/hooks/useAuth';
-// import { useGoogleLogin } from '@/hooks/useGoogleLogin';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { useKakaoLogin } from '@/hooks/useKakaoLogin';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function MainPageContent() {
   const [mounted, setMounted] = useState(false);
-  const { isAuthenticated, isLoading, setAuthStatus } = useAuth();
-  const { login: kakaoLogin } = useKakaoLogin();
-  // const { login: googleLogin } = useGoogleLogin();
+  // user 객체를 useAuth에서 가져와 리다이렉션에 사용
+  const { isAuthenticated, isLoading, user, setAuthStatus } = useAuthContext();
+
+  // useKakaoLogin에 setAuthStatus 함수를 주입하여 내부적으로 사용
+  const { login: kakaoLogin, isInitializing: isKakaoInitializing } = useKakaoLogin({
+    setAuthStatus,
+  });
+  const router = useRouter();
+
+  const totalLoading = isLoading || isKakaoInitializing;
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // 로딩 완료 및 인증된 상태이며 user 정보가 있을 때, 해당 kakao_id로 이동
+    if (!isLoading && isAuthenticated && user) {
+      router.replace(`/mypage/${user.kakao_id}`);
+    }
+  }, [isAuthenticated, isLoading, router, user]); // user를 의존성 배열에 추가
 
   const handleKakaoLogin = async () => {
+    // kakaoLogin 내부에서 setAuthStatus를 호출하여 상태를 업데이트
     const result = await kakaoLogin();
-    if (result?.success) {
-      const kakaoId = result.user?.id?.toString();
-      setAuthStatus(true, 'kakao', kakaoId);
+
+    // 로그인 완료 후, 결과로 받은 user의 kakao_id를 사용하여 리다이렉션
+    if (result?.success && result.user) {
+      router.push(`/mypage/${result.user.kakao_id}`);
     }
   };
-
-  // const handleGoogleLogin = async () => {
-  //   const result = await googleLogin();
-  //   if (result.success) {
-  //     setAuthStatus(true, 'google');
-  //   }
-  // };
 
   // 눈송이
   const snowflakes = Array.from({ length: 50 }).map((_, i) => ({
@@ -39,10 +44,21 @@ export default function MainPageContent() {
     delay: i % 4,
   }));
 
-  if (isLoading) {
+  if (totalLoading) {
     return (
       <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
-        <div className="text-xl text-white">로딩중...</div>
+        <div className="text-xl font-semibold text-white">
+          {isKakaoInitializing ? '인증 모듈 준비 중...' : '로딩중...'}
+        </div>
+      </main>
+    );
+  }
+
+  // isAuthenticated가 true지만, user 정보가 아직 로드되지 않았거나 (최초 렌더링 시)
+  if (isAuthenticated) {
+    return (
+      <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
+        <div className="text-xl font-semibold text-white">마이페이지로 이동 중...</div>
       </main>
     );
   }
@@ -76,11 +92,7 @@ export default function MainPageContent() {
           올해 나는 주변인들에게 어떤 산타였을까?
         </p>
 
-        {isAuthenticated ? (
-          <Button href="/mypage" size="lg" label="내 산타 작업실 가기" />
-        ) : (
-          <AuthButtons onKakaoLogin={handleKakaoLogin} />
-        )}
+        <AuthButtons onKakaoLogin={handleKakaoLogin} />
       </div>
 
       <style jsx>{`

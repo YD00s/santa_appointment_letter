@@ -1,10 +1,10 @@
 'use client';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuthContext();
   const router = useRouter();
 
   useEffect(() => {
@@ -17,9 +17,9 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   // 로딩 중이면 로딩 화면 표시
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-gray-900"></div>
           <p className="text-gray-600">로딩 중...</p>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import IC_X from '@/assets/icons/close.svg';
 import IC_Google from '@/assets/icons/google.svg';
 import IC_Kakao from '@/assets/icons/kakao.svg';
+import IC_Logout from '@/assets/icons/logout.svg';
 
 export const IconMap = {
   IC_X,
+  IC_Logout,
   IC_Kakao,
   IC_Google,
 } as const;

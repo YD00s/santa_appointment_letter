@@ -1,17 +1,18 @@
 'use client';
 
 import Button from '@/components/Button/Button';
-import QuestionCard from './components/QuestionCard';
 import { QUESTIONS } from '@/lib/questions';
 import { getSantaResult } from '@/lib/santas';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import QuestionCard from './components/QuestionCard';
 
 export default function QuestionsPageContent() {
   const router = useRouter();
   const params = useParams();
   const userId = params.userId as string;
-  
+
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,7 +39,7 @@ export default function QuestionsPageContent() {
     const result = getSantaResult(answers);
     // 결과를 query parameter로 전달
     const resultData = encodeURIComponent(JSON.stringify(result));
-    router.push(`/mypage/${userId}/result?data=${resultData}`);
+    router.push(`/mypage/${userId}/result?santaId=${result.santaId}`);
   };
 
   return (

@@ -1,9 +1,16 @@
 'use client';
 
+import Button from '@/components/Button/Button';
+import Modal from '@/components/Modal/Modal';
+import Spinner from '@/components/Spinner';
 import TextArea from '@/components/TextArea';
-import { supabase } from '@/lib/supabase/supabase';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import { usePageOwner } from '@/hooks/usePageOwner';
+import { getSantaById } from '@/lib/constants/santaData';
+import Image from 'next/image';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import usePostCertificate from './hooks/usePostCertificate';
 
 export default function SendPageContent() {
   const router = useRouter();
@@ -11,107 +18,119 @@ export default function SendPageContent() {
   const searchParams = useSearchParams();
   const userId = params.userId as string;
 
-  const [letter, setLetter] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [result, setResult] = useState<any>(null);
-  const [sending, setSending] = useState(false);
+  const { ownerInfo, isLoading: ownerLoading } = usePageOwner(userId);
+
+  const [content, setContent] = useState('');
+  const [senderName, setSenderName] = useState('');
+  const [santaId, setSantaId] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    // URL에서 결과 데이터 가져오기
-    const resultData = searchParams.get('data');
-    if (resultData) {
-      try {
-        const parsed = JSON.parse(decodeURIComponent(resultData));
-        setResult(parsed);
-      } catch (error) {
-        console.error('결과 데이터 파싱 실패:', error);
-        router.push(`/mypage/${userId}/questions`);
+    const santaId = searchParams.get('santaId');
+
+    if (santaId) {
+      const id = parseInt(santaId, 10);
+      if (!isNaN(id) && id >= 1 && id <= 8) {
+        setSantaId(id);
+        return;
       }
-    } else {
-      // 결과가 없으면 질문 페이지로 리다이렉트
-      router.push(`/mypage/${userId}/questions`);
     }
+
+    // 유효하지 않으면 questions로 리다이렉트
+    // router.push(`/mypage/${userId}/questions`);
   }, [searchParams, router, userId]);
 
-  const send = async () => {
-    if (!nickname.trim()) {
-      alert('닉네임을 입력해주세요!');
-      return;
-    }
+  const { send, loading } = usePostCertificate({
+    userId,
+    senderName,
+    receiverName: ownerInfo?.name || '',
+    content,
+    santaId: santaId || 1,
+    // onSuccess: () => {
+    //   setOpen(true);
+    // },
+  });
 
-    if (!letter.trim()) {
-      alert('편지 내용을 입력해주세요!');
-      return;
-    }
-
-    setSending(true);
-    try {
-      const { error } = await supabase.from('messages').insert({
-        receiver_id: userId,
-        sender_nickname: nickname.trim(),
-        content: letter.trim(),
-        santa_type: result?.type || '1',
-        santa_type_name: result?.title || '산타',
-        created_at: new Date().toISOString(),
-      });
-
-      if (error) {
-        console.error('임명장 전송 실패:', error);
-        alert('임명장 전송에 실패했습니다. 다시 시도해주세요.');
-      } else {
-        alert('✅ 임명장이 전송되었습니다!');
-        router.push(`/mypage/${userId}`);
-      }
-    } catch (error) {
-      console.error('임명장 전송 오류:', error);
-      alert('임명장 전송 중 오류가 발생했습니다.');
-    } finally {
-      setSending(false);
-    }
+  const onClose = () => {
+    setOpen(false);
   };
 
-  if (!result) return null;
+  if (!santaId || ownerLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner size={50} />
+      </div>
+    );
+  }
+
+  const santa = getSantaById(santaId);
+  const ownerName = ownerInfo?.name || '산타';
+  const isDisabled = loading || !senderName.trim() || !content.trim();
 
   return (
-    <main className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="mb-8 text-3xl font-bold">편지 작성하기</h1>
+    <>
+      <div className="mt-10 flex flex-col items-center gap-2 px-6 py-16">
+        <div className="flex w-120 min-w-70 flex-col items-center rounded-xl bg-linear-to-r from-red-50 to-blue-50 p-5">
+          <h1 className="text-3xl font-bold">임명장</h1>
 
-      {/* 결과 요약 */}
-      <div className="mb-6 rounded-lg bg-gray-50 p-4">
-        <p className="text-sm text-gray-600">
-          당신의 결과: <span className="font-semibold text-gray-900">{result.title}</span>
-        </p>
+          <div className="mb-6 rounded-lg p-6">
+            <div className="flex flex-col items-center gap-1">
+              <span>{santa.miniTitle}</span>
+              <h2 className="text-xl font-bold text-gray-900">{santa.title}</h2>
+
+              <Image
+                src={santa.image}
+                alt={santa.title}
+                width={130}
+                height={100}
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 보내는 사람 이름 입력 */}
+        <div className="mb-4 flex w-120 min-w-70 flex-col gap-3">
+          <div>
+            <label className="mb-1 block text-sm font-semibold text-gray-700">당신의 닉네임</label>
+            <input
+              type="text"
+              value={senderName}
+              onChange={e => setSenderName(e.target.value)}
+              placeholder="닉네임을 입력하세요"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              maxLength={20}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-semibold text-gray-700">임명장 메시지</label>
+            <div className="w-full">
+              <TextArea
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                heightLines={8}
+                maxLength={200}
+                placeholder={`${ownerName}에게 보낼 따뜻한 메시지를 적어주세요`}
+              />
+            </div>
+          </div>
+          <Button
+            label={loading ? '전송 중...' : '임명장 보내기'}
+            onClick={send}
+            size="full"
+            disabled={isDisabled}
+          />
+        </div>
       </div>
-
-      {/* 닉네임 입력 */}
-      <div className="mb-4">
-        <label className="mb-2 block text-sm font-semibold text-gray-700">당신의 닉네임</label>
-        <input
-          type="text"
-          value={nickname}
-          onChange={e => setNickname(e.target.value)}
-          placeholder="닉네임을 입력하세요"
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-500"
-          maxLength={20}
-        />
-      </div>
-
-      {/* 편지 입력 */}
-      <TextArea
-        value={letter}
-        onChange={e => setLetter(e.target.value)}
-        heightLines={8}
-        maxLength={200}
-        placeholder="친구에게 보낼 따뜻한 편지를 적어줘"
-      />
-
-      <button
-        onClick={send}
-        disabled={sending}
-        className="mt-8 w-full rounded-xl bg-red-600 py-3 text-lg text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {sending ? '전송 중...' : '임명장 보내기'}
-      </button>
-    </main>
+      <Modal open={open} onClose={onClose}>
+        <div className="flex flex-col gap-5">
+          <span className="text-lg font-semibold">임명장이 발송되었습니다!</span>
+          <div className="flex gap-2">
+            <Button size="full" variant="secondary" label="메인화면으로 돌아가기" />
+            <Button size="full" label={`${ownerName}의 작업실 방문하기`} />
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 }

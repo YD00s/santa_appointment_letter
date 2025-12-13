@@ -9,9 +9,12 @@ interface EditTabProps {
   wallImages: string[];
   floorImages: string[];
   objectImages: string[];
-  setWallType: (idx: number) => void;
-  setFloorType: (idx: number) => void;
-  setObjectType: (idx: number) => void;
+  currentWallType: number;
+  currentFloorType: number;
+  currentObjectType: number;
+  onWallTypeChange: (type: number) => void;
+  onFloorTypeChange: (type: number) => void;
+  onObjectTypeChange: (type: number) => void;
 }
 
 export default function EditTab({
@@ -19,9 +22,12 @@ export default function EditTab({
   wallImages,
   floorImages,
   objectImages,
-  setWallType,
-  setFloorType,
-  setObjectType,
+  currentWallType,
+  currentFloorType,
+  currentObjectType,
+  onWallTypeChange,
+  onFloorTypeChange,
+  onObjectTypeChange,
 }: EditTabProps) {
   if (!isEditMode) return null;
 
@@ -30,16 +36,31 @@ export default function EditTab({
       <Tab
         tabs={['벽지', '오브젝트', '바닥']}
         contents={{
-          벽지: <ThumbnailList images={wallImages} onSelect={setWallType} height={12} />,
+          벽지: (
+            <ThumbnailList
+              images={wallImages}
+              selectedIndex={currentWallType}
+              onSelect={onWallTypeChange}
+              height={12}
+            />
+          ),
           오브젝트: (
             <ThumbnailList
               images={objectImages}
-              onSelect={setObjectType}
+              selectedIndex={currentObjectType}
+              onSelect={onObjectTypeChange}
               height={14}
               layout="object-contain"
             />
           ),
-          바닥: <ThumbnailList images={floorImages} onSelect={setFloorType} height={5} />,
+          바닥: (
+            <ThumbnailList
+              images={floorImages}
+              selectedIndex={currentFloorType}
+              onSelect={onFloorTypeChange}
+              height={5}
+            />
+          ),
         }}
       />
     </div>

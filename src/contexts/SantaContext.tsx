@@ -1,6 +1,5 @@
 'use client';
-
-import type { SantaId } from '@/lib/santas';
+import { SantaId } from '@/lib/constants/santaData';
 import { ReactNode, createContext, useContext, useState } from 'react';
 
 type SantaResult = {
