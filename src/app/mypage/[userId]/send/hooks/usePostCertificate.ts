@@ -9,6 +9,7 @@ interface Props {
   receiverName: string;
   content: string;
   santaId: number;
+  onSuccess: () => void;
 }
 export default function usePostCertificate({
   userId,
@@ -16,6 +17,7 @@ export default function usePostCertificate({
   receiverName,
   content,
   santaId,
+  onSuccess,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const { show } = useToast();
@@ -42,6 +44,8 @@ export default function usePostCertificate({
           createdAt: new Date(),
         }),
       });
+
+      onSuccess();
 
       if (!res.ok) {
         const err = await res.json();

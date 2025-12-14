@@ -6,7 +6,7 @@
 
 /* === GLOBAL DEFAULT STYLES === */
 :root {
-  --background: var(--color-white);
+  --background: var(--color-background);
   --foreground: var(--color-black);
 }
 
@@ -24,6 +24,8 @@
 @layer base {
   body {
     @apply font-pretendard;
+    background-color: var(--background);
+    color:var(--foreground);
   }
 }
 

@@ -4,6 +4,7 @@ import { useAuthContext } from '@/contexts/AuthContext';
 import { useKakaoLogin } from '@/hooks/useKakaoLogin';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import SnowFall from '@/components/SnowFall';
 
 export default function MainPageContent() {
   const [mounted, setMounted] = useState(false);
@@ -36,14 +37,6 @@ export default function MainPageContent() {
     }
   };
 
-  // 눈송이
-  const snowflakes = Array.from({ length: 50 }).map((_, i) => ({
-    left: (i * 17.3) % 100,
-    size: (i % 3) + 5,
-    duration: (i % 10) + 10,
-    delay: i % 4,
-  }));
-
   if (totalLoading) {
     return (
       <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
@@ -65,25 +58,7 @@ export default function MainPageContent() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
-      {mounted && (
-        <div className="pointer-events-none absolute inset-0">
-          {snowflakes.map((flake, i) => (
-            <div
-              key={i}
-              className="animate-snowfall absolute rounded-full bg-blue-50"
-              style={{
-                left: `${flake.left}%`,
-                top: '-10px',
-                width: `${flake.size}px`,
-                height: `${flake.size}px`,
-                animationDuration: `${flake.duration}s`,
-                animationDelay: `${flake.delay}s`,
-              }}
-            />
-          ))}
-        </div>
-      )}
-
+      <SnowFall/>
       <div className="relative max-w-md rounded-2xl bg-white/90 p-8 backdrop-blur-sm">
         <h1 className="mb-4 text-3xl font-bold">산타 임명장</h1>
         <p className="mb-8 text-gray-600">
@@ -94,29 +69,6 @@ export default function MainPageContent() {
 
         <AuthButtons onKakaoLogin={handleKakaoLogin} />
       </div>
-
-      <style jsx>{`
-        @keyframes snowfall {
-          0% {
-            transform: translateY(0) translateX(0);
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(100vh) translateX(20px);
-            opacity: 0;
-          }
-        }
-
-        .animate-snowfall {
-          animation: snowfall linear infinite;
-        }
-      `}</style>
     </main>
   );
 }
