@@ -1,7 +1,7 @@
-import { getRandomNameTag } from '@/lib/constants/nameTags';
 import { supabase } from '@/lib/supabase/supabase';
 import { Certificate } from '@/types/Certificate';
 import { cookies as nextCookies } from 'next/headers';
+import { notFound } from 'next/navigation';
 
 import MyPageContent from './MyPageContent';
 
@@ -22,14 +22,7 @@ export default async function MyPage(props: PageProps) {
       .single();
 
     if (userError || !userData) {
-      return (
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
-            <h1 className="mb-4 text-2xl font-bold">페이지를 찾을 수 없습니다</h1>
-            <p className="text-gray-600">존재하지 않는 사용자입니다.</p>
-          </div>
-        </div>
-      );
+      notFound();
     }
 
     // 2. 마이페이지 설정
@@ -81,13 +74,6 @@ export default async function MyPage(props: PageProps) {
       />
     );
   } catch (err) {
-    console.error('페이지 로드 실패:', err);
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h1 className="mb-4 text-2xl font-bold">페이지를 불러오는 중 오류 발생</h1>
-        </div>
-      </div>
-    );
+    throw err; // ❗ error.tsx로 위임
   }
 }

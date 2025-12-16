@@ -58,7 +58,7 @@ export default function MyPageContent({
 
   return (
     <>
-      <div className="relative flex h-190 w-full flex-col">
+      <div className="relative z-20 flex h-163 w-full flex-col">
         <div>
           <Room
             images={currentImages}

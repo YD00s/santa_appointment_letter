@@ -1,6 +1,7 @@
 'use client';
 
 import Button, { ButtonProps } from '@/components/Button/Button';
+import Link from 'next/link';
 
 interface AuthButtonsProps extends ButtonProps {
   onKakaoLogin: () => void;
@@ -29,8 +30,15 @@ export default function AuthButtons({ onKakaoLogin }: AuthButtonsProps) {
         className="hover:shadow-md"
       /> */}
       <p className="mt-4 text-center text-xs text-gray-500">
-        로그인 시 <span className="cursor-pointer underline">이용약관</span> 및{' '}
-        <span className="cursor-pointer underline">개인정보처리방침</span>에 동의하게 됩니다
+        로그인 시{' '}
+        <Link href="/terms" className="underline hover:text-gray-700">
+          이용약관
+        </Link>{' '}
+        및{' '}
+        <Link href="/privacy" className="underline hover:text-gray-700">
+          개인정보처리방침
+        </Link>
+        에 동의하게 됩니다
       </p>
     </div>
   );

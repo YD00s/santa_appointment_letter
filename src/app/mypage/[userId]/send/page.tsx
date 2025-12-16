@@ -1,36 +1,28 @@
 import { SantaId } from '@/lib/constants/santaData';
-import SendPageContent from './SendPageContent';
 import { notFound } from 'next/navigation';
 
+import SendPageContent from './SendPageContent';
+
 interface Props {
-  params: { userId: string };
-  searchParams: { santaId: SantaId };
+  params: Promise<{ userId: string }>;
+  searchParams: Promise<{ santaId?: string }>;
 }
 
-export default function SendPage({ params, searchParams }: Props) {
-  const santaId = Number(searchParams.santaId);
+export default async function SendPage({ params, searchParams }: Props) {
+  const { userId } = await params;
+  const { santaId: santaIdRaw } = await searchParams;
 
-  if(!santaId || santaId < 1 || santaId > 8) {
+  const santaId = Number(santaIdRaw);
+
+  if (!santaId || santaId < 1 || santaId > 8) {
+    console.log(`santaId: ${santaId}`);
     notFound();
   }
   return (
     <div>
       <main className="flex flex-col justify-center">
-        <SendPageContent santaId={santaId} userId={params.userId}/>
+        <SendPageContent santaId={santaId} userId={userId} />
       </main>
     </div>
   );
 }
-
-// import SendPageContent from './SendPageContent';
-
-// export default function SendPage() {
-//   return (
-//     <div>
-//       <main className="flex flex-col justify-center">
-//         <SendPageContent />
-//       </main>
-//     </div>
-//   );
-// }
-

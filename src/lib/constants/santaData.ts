@@ -37,7 +37,7 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   },
   3: {
     miniTitle: '🎄 흔들림 없는 든든함 🎄',
-    title: '트리 산타',
+    title: '근육 산타',
     image: '/assets/images/santa-3.png',
     description:
       '어떤 눈보라도 묵묵히 뚫고 나아가는 책임형 산타. 체크리스트와 가죽 장갑은 그의 상징이며, 계획된 루트를 단 한 번도 어기지 않는다. 조용한 존재감으로 깊은 믿음을 남긴다.',

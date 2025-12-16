@@ -1,4 +1,4 @@
-import Button from '@/components/Button/Button';
+import IconButton from '@/components/IconButton/IconButton';
 
 interface EditButtonProps {
   onClick: () => void;
@@ -6,11 +6,12 @@ interface EditButtonProps {
 
 export default function EditButton({ onClick }: EditButtonProps) {
   return (
-    <Button
-      label="🖊️"
-      radius="full"
+    <IconButton
+      icon="IC_Edit"
+      variant="secondary"
       size="sm"
-      className="absolute -right-3 bottom-3 h-4 w-8 bg-white text-xs"
+      ariaLabel="이름 수정 버튼"
+      className="duration text-gray900 absolute -right-3 -bottom-3"
       onClick={onClick} // 실제로 클릭 시 전달된 함수 호출
     />
   );

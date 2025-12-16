@@ -1,6 +1,8 @@
 'use client';
 
+import Spinner from '@/components/Spinner';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface ThumbnailListProps {
   images: string[];
@@ -17,23 +19,40 @@ export default function ThumbnailList({
   layout = 'object-cover',
   onSelect,
 }: ThumbnailListProps) {
+  const [isLoaded, setIsLoaded] = useState<Record<number, boolean>>({});
+
   return (
     <div className="flex justify-center gap-2 p-2 pb-20">
       {images.map((img, idx) => {
         const isSelected = selectedIndex === idx;
+        const isisLoaded = isLoaded[idx];
 
         return (
           <div
             key={idx}
             className={`relative w-50 cursor-pointer overflow-hidden rounded-2xl transition-all ${
               isSelected
-                ? 'border-3 border-blue-500 ring-2 ring-blue-200'
+                ? 'border-red500 border-3 ring-2 ring-blue-200'
                 : 'border-2 border-transparent hover:border-gray-300'
             }`}
             onClick={() => onSelect(idx)}
             style={{ height: `${height}rem` }}
           >
-            <Image src={img} alt={`옵션 ${idx + 1}`} fill className={layout} />
+            {!isisLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Spinner />
+              </div>
+            )}
+            <Image
+              key={img}
+              src={img}
+              alt={`옵션 ${idx + 1}`}
+              fill
+              className={`${layout} transition-opacity duration-200 ${
+                isisLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              onLoadingComplete={() => setIsLoaded(prev => ({ ...prev, [idx]: true }))}
+            />
           </div>
         );
       })}

@@ -1,10 +1,11 @@
 'use client';
 import AuthButtons from '@/components/AuthButtons';
+import SnowFall from '@/components/SnowFall';
+import Spinner from '@/components/Spinner';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { useKakaoLogin } from '@/hooks/useKakaoLogin';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import SnowFall from '@/components/SnowFall';
 
 export default function MainPageContent() {
   const [mounted, setMounted] = useState(false);
@@ -37,28 +38,18 @@ export default function MainPageContent() {
     }
   };
 
-  if (totalLoading) {
+  if (totalLoading || isAuthenticated) {
     return (
-      <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
-        <div className="text-xl font-semibold text-white">
-          {isKakaoInitializing ? '인증 모듈 준비 중...' : '로딩중...'}
-        </div>
-      </main>
-    );
-  }
-
-  // isAuthenticated가 true지만, user 정보가 아직 로드되지 않았거나 (최초 렌더링 시)
-  if (isAuthenticated) {
-    return (
-      <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
-        <div className="text-xl font-semibold text-white">마이페이지로 이동 중...</div>
-      </main>
+      <div className="text-gray50 flex h-screen w-screen flex-col items-center justify-center gap-4">
+        <div className="text-3xl font-semibold">이동 중...</div>
+        <Spinner />
+      </div>
     );
   }
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
-      <SnowFall/>
+      <SnowFall />
       <div className="relative max-w-md rounded-2xl bg-white/90 p-8 backdrop-blur-sm">
         <h1 className="mb-4 text-3xl font-bold">산타 임명장</h1>
         <p className="mb-8 text-gray-600">
