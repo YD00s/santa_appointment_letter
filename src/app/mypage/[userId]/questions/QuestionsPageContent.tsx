@@ -43,7 +43,7 @@ export default function QuestionsPageContent() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col bg-[#1a2847]">
+    <main className="flex h-163 flex-col">
       {/* 진행률 표시 */}
       <div className="bg-white/10 backdrop-blur-sm">
         <div className="mx-auto max-w-2xl px-6 py-4">

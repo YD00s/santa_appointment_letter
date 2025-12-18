@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/Button/Button';
+import IconButton from '@/components/IconButton/IconButton';
 import Spinner from '@/components/Spinner';
 import { useToast } from '@/contexts/ToastProvider';
 import { useEffect, useState } from 'react';
@@ -81,7 +82,17 @@ export default function MyPageHeader({ isOwner, initialName, userId, certificate
         </div>
       </div>
 
-      {isOwner && <LogoutButton />}
+      {isOwner ? (
+        <LogoutButton />
+      ) : (
+        <IconButton
+          href="/"
+          icon="IC_Home"
+          variant="tertiary"
+          ariaLabel="메인화면으로 이동"
+          className="text-gray900"
+        />
+      )}
     </div>
   );
 }

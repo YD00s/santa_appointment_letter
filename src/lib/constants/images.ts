@@ -1,15 +1,15 @@
 export const wallImages = [
-  '/assets/images/wall1.png',
-  '/assets/images/wall2.png',
-  '/assets/images/wall3.png',
+  '/assets/images/walls/wall1.png',
+  '/assets/images/walls/wall2.png',
+  '/assets/images/walls/wall3.png',
 ];
 export const floorImages = [
-  '/assets/images/floor1.png',
-  '/assets/images/floor2.png',
-  '/assets/images/floor3.png',
+  '/assets/images/floors/floor1.png',
+  '/assets/images/floors/floor2.png',
+  '/assets/images/floors/floor3.png',
 ];
 export const objectImages = [
-  '/assets/images/Snowman.png',
-  '/assets/images/Rudolph.png',
-  '/assets/images/Tree.png',
+  '/assets/images/objects/Snowman.png',
+  '/assets/images/objects/Rudolph.png',
+  '/assets/images/objects/Tree.png',
 ];

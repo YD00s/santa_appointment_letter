@@ -31,7 +31,7 @@ export default function MyPageContent({
   initialCertificates,
 }: MyPageContentProps) {
   const { user, isAuthenticated } = useAuthContext();
-  const [certificates] = useState(initialCertificates);
+  const [certificates, setCertificates] = useState(initialCertificates); // ✅ setCertificates 추가
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -56,6 +56,18 @@ export default function MyPageContent({
 
   const closeModal = () => setSelectedCert(null);
 
+  // 삭제 후 UI 업데이트 (낙관적 업데이트)
+  const handleDelete = (certificateId: string) => {
+    setCertificates(prev => prev.filter(cert => cert.id !== certificateId));
+  };
+
+  // 숨김 토글 후 UI 업데이트 (낙관적 업데이트)
+  const handleToggleVisibility = (certificateId: string, isHidden: boolean) => {
+    setCertificates(prev =>
+      prev.map(cert => (cert.id === certificateId ? { ...cert, isHidden } : cert))
+    );
+  };
+
   return (
     <>
       <div className="relative z-20 flex h-163 w-full flex-col">
@@ -64,6 +76,7 @@ export default function MyPageContent({
             images={currentImages}
             certificates={certificates}
             onSelectCertificate={setSelectedCert}
+            isOwner={isOwner}
           />
         </div>
 
@@ -99,7 +112,15 @@ export default function MyPageContent({
           </div>
         )}
       </div>
-      <CertificateModal certificate={selectedCert} onClose={closeModal} />
+      <CertificateModal
+        ownerId={pageOwner.kakao_id}
+        isOwner={isOwner}
+        name={pageOwner.name ?? ''}
+        certificate={selectedCert}
+        onClose={closeModal}
+        onDelete={handleDelete}
+        onToggleVisibility={handleToggleVisibility}
+      />
     </>
   );
 }

@@ -32,7 +32,7 @@ export const textAreaStyle = tv({
 const LINE_HEIGHTS = { sm: 19, md: 26, lg: 29 };
 export interface TextAreaProps extends Omit<
   React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  'value' | 'onChange' | 'onSubmit'
+  'value' | 'onChange'
 > {
   className?: string;
   variant?: 'default';
@@ -43,7 +43,6 @@ export interface TextAreaProps extends Omit<
   placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onSubmit?: (e?: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 const TextArea = ({
@@ -56,22 +55,10 @@ const TextArea = ({
   heightLines,
   radius = 'md',
   onChange,
-  onSubmit,
   ...rest
 }: TextAreaProps) => {
   const lineHeight = LINE_HEIGHTS[textSize];
   const minHeight = lineHeight * heightLines;
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // IME(한글 등) 조합 중 Enter 잘못 제출되는 상황 방지
-    const isComposing =
-      (e.nativeEvent as KeyboardEvent).isComposing ||
-      (e as unknown as { isComposing?: boolean }).isComposing;
-    if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
-      e.preventDefault(); // 줄바꿈 방지
-      onSubmit?.();
-    }
-  };
 
   return (
     <div className={wholeBoxStyle({ variant, radius })}>
@@ -83,7 +70,6 @@ const TextArea = ({
         maxLength={maxLength && maxLength > 0 ? maxLength : undefined}
         style={{ minHeight: `${minHeight}px` }}
         onChange={onChange}
-        onKeyDown={handleKeyDown}
         {...rest}
       />
       {maxLength > 0 && (

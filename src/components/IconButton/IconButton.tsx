@@ -2,6 +2,7 @@
 
 import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
+import Link from 'next/link';
 import React from 'react';
 
 import SVGIcon from '../SVGIcon/SVGIcon';
@@ -15,10 +16,11 @@ export interface IconButtonProps extends Omit<
   asChild?: boolean;
   className?: string;
   icon: IconMapTypes; // icon 타입을 .svg 파일로 강제
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   ariaLabel: string;
+  href?: string;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -33,6 +35,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       size = 'md',
       disabled = false,
       ariaLabel,
+      href,
       onClick,
       ...rest
     },
@@ -44,8 +47,22 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     // 인터랙션 요소 중첩 방지를 위해 Slot 적용
     const Comp = asChild ? Slot : 'button';
 
+    if (href) {
+      return (
+        <Link
+          href={href}
+          className={clsx(classes, className)}
+          aria-disabled={disabled}
+          onClick={disabled ? e => e.preventDefault() : onClick}
+          {...(rest as any)}
+        >
+          <SVGIcon icon={icon} size={buttonSizeMap[size]} className="shrink-0" aria-hidden="true" />
+        </Link>
+      );
+    }
+
     return (
-      <Comp
+      <button
         ref={ref}
         className={clsx(classes, className)}
         disabled={disabled}
@@ -53,12 +70,8 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         onClick={onClick}
         {...rest}
       >
-        {asChild ? (
-          children
-        ) : (
-          <SVGIcon icon={icon} size={buttonSizeMap[size]} className="shrink-0" aria-hidden="true" />
-        )}
-      </Comp>
+        <SVGIcon icon={icon} size={buttonSizeMap[size]} className="shrink-0" aria-hidden="true" />
+      </button>
     );
   }
 );

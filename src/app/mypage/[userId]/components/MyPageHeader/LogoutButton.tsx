@@ -12,7 +12,7 @@ export default function LogoutButton() {
   return (
     <IconButton
       icon="IC_Logout"
-      variant="secondary"
+      variant="tertiary"
       ariaLabel="로그아웃"
       onClick={async e => {
         try {

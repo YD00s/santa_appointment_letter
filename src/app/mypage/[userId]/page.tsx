@@ -62,6 +62,7 @@ export default async function MyPage(props: PageProps) {
           message: cert.message || '',
           santaId: cert.santa_id,
           createdAt: cert.created_at,
+          isHidden: cert.is_hidden ?? false,
         }));
       }
     }

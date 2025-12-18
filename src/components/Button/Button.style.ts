@@ -6,6 +6,7 @@ export const style = tv({
     variant: {
       primary: 'bg-btn-primary text-btn-primary',
       secondary: 'bg-btn-secondary border-btn-secondary text-btn-secondary',
+      tertiary: 'bg-btn-tertiary border-btn-tertiary text-btn-tertiary',
       kakao: 'bg-btn-kakao text-btn-kakao',
       google: 'bg-btn-google text-btn-google border-btn-google border',
     },

@@ -15,7 +15,7 @@ export interface ButtonProps extends Omit<
   className?: string;
   icon?: IconMapTypes;
   label?: string;
-  variant?: 'primary' | 'secondary' | 'kakao' | 'google';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'kakao' | 'google';
   radius?: 'md' | 'full';
   size?: 'sm' | 'md' | 'lg' | 'full';
   disabled?: boolean;
