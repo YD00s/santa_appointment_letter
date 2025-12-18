@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 서비스 소개
+### 🎅 산타 임명장 🎅
+- 로그인을 통해 내 작업실을 만들고, 친구들에게 공유해서 임명장을 받아봐요
+- 성격 테스트를 통해 친구에게 어울리는 산타를 고르고, 메세지와 함께 임명장을 수여해주세요!
 
-## Getting Started
 
-First, run the development server:
+## 🛠️ 기술 스택
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Frontend
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js16**
+- **TypeScript**
+- **Tailwind CSS**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Backend & Database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js API Routes**
+- **supabase**
 
-## Learn More
+### Authentication
 
-To learn more about Next.js, take a look at the following resources:
+- **카카오 로그인**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Analytics
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Google Analytics**
+- **Google Tag Manager**
 
-## Deploy on Vercel
+### Analytics
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Prettier** : 자동 코드 포맷팅
+- **ESLint** : 일관된 코드 스타일 유지 및 오류 예방
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Package Manager
+- **pnpm**
+
+### Release
+- **vercel** : 구입 도메인 연결
