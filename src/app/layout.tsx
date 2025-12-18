@@ -25,9 +25,8 @@ export const metadata: Metadata = {
 
   // Open Graph (카카오톡, 페이스북 등)
   openGraph: {
-    title: '산타 임명장 - 나는 어떤 산타일까?',
-    description:
-      '친구에게 어울리는 산타를 찾아주세요! 8가지 산타 유형으로 친구 성격 분석하고 메세지 보내기',
+    title: '🎅 산타 임명장 - 너를 santa로 임명한다.',
+    description: '친구에게 어울리는 산타를 찾아주고 메세지와 함께 보내기',
     url: '/',
     siteName: '산타 임명장',
     locale: 'ko_KR',

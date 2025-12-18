@@ -5,6 +5,8 @@ import IconButton from '@/components/IconButton/IconButton';
 import Modal from '@/components/Modal/Modal';
 import Spinner from '@/components/Spinner';
 import { useToast } from '@/contexts/ToastProvider';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { useSaveName } from '../../hooks/useSaveName';
@@ -130,7 +132,28 @@ export default function MyPageHeader({
         )}
       </div>
       <Modal open={open} onClose={() => setOpen(false)} className="mx-10">
-        <div className="custom-scrollbar flex h-100 flex-col items-start gap-3 overflow-auto p-2 text-lg">
+        <div className="mb-2 flex flex-col gap-1 px-2 font-semibold">
+          <div className="flex gap-1">
+            <div>
+              <Image src="/assets/images/github.png" alt="github icon" width={20} height={20} />
+            </div>
+            <Link href="https://github.com/YD00s/santa_appointment_letter">Github 주소</Link>
+          </div>
+          <div className="flex items-center gap-1">
+            <div>
+              <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png?20200221181224"
+                alt="github icon"
+                width={18}
+                height={18}
+              />
+            </div>
+            <Link href="https://aback-shirt-867.notion.site/2c0add99c04280c08879d1810dd4eebb">
+              소개/안내 페이지
+            </Link>
+          </div>
+        </div>
+        <div className="custom-scrollbar flex h-100 flex-col gap-4 overflow-auto p-2 text-lg">
           <span>
             혼자 급하게 만들어본 서비스로, <br />
             <strong>불안정</strong>할 수 있습니다!
@@ -157,8 +180,10 @@ export default function MyPageHeader({
           </span>
           <span>
             모든 이미지는 개발자가 <strong>직접 그린</strong> 이미지입니다.
+            <br />
+            무단으로 사용하지 말아주세요.
           </span>
-          <span>나쁜말은 적지 말아주세요.</span>
+          <span>상대를 비방하는 말은 적지 말아주세요.</span>
         </div>
       </Modal>
     </>
