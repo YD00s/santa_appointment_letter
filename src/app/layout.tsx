@@ -1,6 +1,7 @@
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SantaProvider } from '@/contexts/SantaContext';
 import { ToastProvider } from '@/contexts/ToastProvider';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
@@ -22,6 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ToastProvider>{children}</ToastProvider>
           </SantaProvider>
         </AuthProvider>
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GA_ID} />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
       </body>
     </html>
   );
