@@ -57,8 +57,6 @@ export default function MyPageHeader({
       <div className="absolute top-0 z-10 flex w-full items-start justify-between p-2">
         <div className="flex flex-col items-start">
           <div className="relative">
-            {isOwner && !isEditingName && <EditButton onClick={() => setIsEditingName(true)} />}
-
             {isEditingName ? (
               <div className="relative flex items-center gap-2">
                 <div className="relative">
@@ -71,7 +69,7 @@ export default function MyPageHeader({
                     }}
                     autoFocus
                     disabled={isSaving}
-                    className="w-50 rounded bg-white px-3 py-2 text-3xl font-bold disabled:opacity-50"
+                    className="w-50 rounded bg-white px-3 py-2 text-[20px] font-bold disabled:opacity-50"
                   />
                   {isSaving && (
                     <div className="absolute inset-0 flex items-center justify-center bg-white/70">
@@ -87,9 +85,17 @@ export default function MyPageHeader({
               </div>
             ) : (
               <div className="flex flex-col gap-1">
-                <h1 className="rounded bg-[#b59059] px-3 py-2 text-[20px] font-bold shadow-md">
-                  {`${tempName} 산타의 작업실`}
-                </h1>
+                <div className="relative">
+                  {isOwner && !isEditingName && (
+                    <EditButton
+                      onClick={() => setIsEditingName(true)}
+                      className="absolute -right-3 -bottom-4"
+                    />
+                  )}
+                  <h1 className="rounded bg-[#b59059] px-3 py-2 text-[20px] font-bold shadow-md">
+                    {`${tempName} 산타의 작업실`}
+                  </h1>
+                </div>
                 <IconButton
                   icon="IC_Info"
                   ariaLabel="정보"
@@ -124,7 +130,7 @@ export default function MyPageHeader({
         )}
       </div>
       <Modal open={open} onClose={() => setOpen(false)} className="mx-10">
-        <div className="flex flex-col items-start gap-3 p-2 text-lg">
+        <div className="custom-scrollbar flex h-100 flex-col items-start gap-3 overflow-auto p-2 text-lg">
           <span>
             혼자 급하게 만들어본 서비스로, <br />
             <strong>불안정</strong>할 수 있습니다!
