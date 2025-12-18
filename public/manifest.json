@@ -1,0 +1,21 @@
+{
+  "name": "산타 임명장 - 친구에게 산타 임명장 수여하기",
+  "short_name": "산타 임명장",
+  "description": "친구에게 어울리는 산타 찾기",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#DC2626",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

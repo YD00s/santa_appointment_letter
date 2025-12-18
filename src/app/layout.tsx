@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/assets/images/santas/santa-8.png', // 1200x630px 권장
+        url: '/og-image.png', // 1200x630px 권장
         width: 1200,
         height: 630,
         alt: '산타 임명장 - 친구에게 어울리는 산타 찾고 메세지 보내기',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '산타 임명장 - 나는 어떤 산타일까?',
     description: '친구에게 어울리는 산타를 찾아주세요! 8가지 산타 유형 테스트와 따뜻한 편지 보내기',
-    images: ['/assets/images/santas/santa-8.png'],
+    images: ['/og-image.png'],
   },
 
   // 추가 메타 태그
