@@ -3,6 +3,7 @@
 
 import Button from '@/components/Button/Button';
 import Modal from '@/components/Modal/Modal';
+import { useToast } from '@/contexts/ToastProvider';
 import { getSantaById } from '@/lib/constants/santaData';
 import { Certificate } from '@/types/Certificate';
 import formatDate from '@/utils/formDate';
@@ -31,8 +32,9 @@ export default function CertificateModal({
   onDelete,
   onToggleVisibility,
 }: CertificateModalProps) {
+  const { show } = useToast();
   const { deleteCertificate, isDeleting } = useDeleteCertificate();
-  const { toggleVisibility, isUpdating } = useToggleCertificateVisibility();
+  const { toggleVisibility } = useToggleCertificateVisibility();
   const [showConfirm, setShowConfirm] = useState(false);
 
   if (!certificate) {
@@ -52,7 +54,7 @@ export default function CertificateModal({
     }
 
     if (!ownerId) {
-      alert('사용자 정보를 확인할 수 없습니다.');
+      show('사용자 정보를 확인할 수 없습니다.', 'error');
       return;
     }
 
@@ -60,16 +62,17 @@ export default function CertificateModal({
     if (success) {
       // 낙관적 업데이트: 삭제 성공 시 부모 컴포넌트에 알림
       onDelete?.(certificate.id);
+      show('임명장이 삭제되었습니다.');
       onClose();
     } else {
-      alert('임명장 삭제에 실패했습니다.');
+      show('임명장 삭제에 실패했습니다.', 'error');
       setShowConfirm(false);
     }
   };
 
   const handleToggleVisibility = async () => {
     if (!ownerId) {
-      alert('사용자 정보를 확인할 수 없습니다.');
+      show('사용자 정보를 확인할 수 없습니다.', 'error');
       return;
     }
 
@@ -81,7 +84,7 @@ export default function CertificateModal({
       onToggleVisibility?.(certificate.id, newIsHidden);
       onClose();
     } else {
-      alert('임명장 상태 변경에 실패했습니다.');
+      show('숨기기에 실패했습니다.', 'error');
     }
   };
 
@@ -118,16 +121,16 @@ export default function CertificateModal({
         {/* 주인만 볼 수 있는 버튼들 */}
         {isOwner && (
           <div className="flex w-full justify-end gap-2">
-            <Button
+            {/* <Button
               label={isUpdating ? '처리 중...' : certificate.isHidden ? '공개하기' : '나만보기'}
               variant="secondary"
               size="sm"
               onClick={handleToggleVisibility}
               disabled={isUpdating}
               className="border-gray100 border"
-            />
+            /> */}
             <Button
-              label={isDeleting ? '삭제 중...' : showConfirm ? '정말 삭제..?' : '삭제'}
+              label={isDeleting ? '삭제 중...' : showConfirm ? '정말정말 삭제..?' : '삭제'}
               variant="secondary"
               onClick={handleDelete}
               disabled={isDeleting}

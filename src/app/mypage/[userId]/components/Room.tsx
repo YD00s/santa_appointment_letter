@@ -11,12 +11,19 @@ interface RoomProps {
   images: RoomImages;
   certificates: any[];
   isOwner: boolean;
+  isVisible?: boolean;
   onSelectCertificate: (cert: Certificate) => void;
 }
 
 const CERTIFICATES_PAGE = 12;
 
-export default function Room({ images, certificates, onSelectCertificate }: RoomProps) {
+export default function Room({
+  images,
+  certificates,
+  isOwner,
+  isVisible = false,
+  onSelectCertificate,
+}: RoomProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(certificates.length / CERTIFICATES_PAGE);
 
@@ -38,6 +45,8 @@ export default function Room({ images, certificates, onSelectCertificate }: Room
 
   const isFirstPage = currentPage === 0;
   const isLastPage = currentPage === totalPages - 1 || totalPages === 0;
+
+  const canClickCertificate = isOwner || isVisible;
 
   return (
     <div className="relative h-200 w-full flex-1 overflow-hidden">
@@ -77,18 +86,23 @@ export default function Room({ images, certificates, onSelectCertificate }: Room
             return (
               <div
                 key={cert.id}
-                className="absolute cursor-pointer rounded-full shadow-md transition-transform hover:scale-110"
+                className="absolute"
                 style={{ top: `${topPercent}%`, left: `${leftPercent}%` }}
                 onClick={() => onSelectCertificate(cert)}
               >
-                <CertificateBadge santaId={cert.santaId} />
+                <CertificateBadge
+                  santaId={cert.santaId}
+                  isHidden={cert.isHidden}
+                  isOwner={isOwner}
+                  isClickable={canClickCertificate}
+                />
               </div>
             );
           })}
 
           {/* 페이지네이션 컨트롤 */}
           {certificates.length > 0 && (
-            <div className="absolute bottom-50 left-1/2 z-30 flex -translate-x-1/2 items-center justify-between gap-60">
+            <div className="absolute bottom-50 left-1/2 -z-10 flex -translate-x-1/2 items-center justify-between gap-70">
               <IconButton
                 icon="IC_LeftArrow"
                 size="sm"

@@ -11,7 +11,7 @@ interface FetchUserByKakaoIdResult {
 }
 
 // ============================================
-// USERS 관련
+// USERS
 // ============================================
 // kakao_id로 users 테이블에서 UUID 조회
 export async function fetchUserByKakaoId(kakaoId: string): Promise<FetchUserByKakaoIdResult> {
@@ -62,7 +62,7 @@ export async function upsertUserByKakaoId(kakaoId: string) {
 }
 
 // ============================================
-// MYPAGE 관련
+// MYPAGE
 // ============================================
 // 회원가입 시 기본 mypage 생성
 export async function createDefaultMypage(userId: string) {
@@ -168,8 +168,34 @@ export async function upsertMypage(mypageData: {
   }
 }
 
+export async function updateMyPageVisibility(updateData: { userId: string; visible: boolean }) {
+  try {
+    console.log('🔍 updateMyPageVisibility 호출:', updateData);
+
+    const { data, error } = await supabaseClient
+      .from('mypage')
+      .update({ visible: updateData.visible })
+      .eq('user_id', updateData.userId) // ✅ 이제 userId는 UUID임
+      .select()
+      .maybeSingle();
+
+    console.log('📊 Supabase 응답:', { data, error });
+
+    if (error) {
+      console.error('❌ Supabase 에러:', error);
+      return { data: null, error: new Error(error.message) };
+    }
+
+    console.log('✅ visible 업데이트 성공:', data);
+    return { data, error: null };
+  } catch (err) {
+    console.error('💥 예외 발생:', err);
+    return { data: null, error: err instanceof Error ? err : new Error('Unknown error') };
+  }
+}
+
 // ============================================
-// CERTIFICATES 관련
+// CERTIFICATES
 // ============================================
 // owner_id로 임명장 목록 조회 (deprecated - fetchCertificatesByMypageId 사용 권장)
 export async function fetchCertificatesByOwnerId(ownerId: string) {
@@ -216,6 +242,60 @@ export async function fetchCertificatesByMypageId(mypageId: string) {
     }
 
     return { data: data || [], error: null };
+  } catch (err) {
+    return {
+      data: null,
+      error: err instanceof Error ? err : new Error('Unknown error'),
+    };
+  }
+}
+
+// 임명장 삭제 (mypage_id 체크 포함)
+export async function deleteCertificate(certificateId: string, mypageId?: string) {
+  try {
+    let query = supabaseClient.from('certificates').delete().eq('id', certificateId);
+
+    // mypageId가 제공된 경우 추가 검증
+    if (mypageId) {
+      query = query.eq('mypage_id', mypageId);
+    }
+
+    const { data, error } = await query.select();
+
+    if (error) {
+      return { data: null, error: new Error(error.message) };
+    }
+
+    return { data: data || [], error: null };
+  } catch (err) {
+    return {
+      data: null,
+      error: err instanceof Error ? err : new Error('Unknown error'),
+    };
+  }
+}
+
+// 임명장 숨김 상태 업데이트 (mypage_id 체크 포함)
+export async function updateCertificate(
+  certificateId: string,
+  updates: { is_hidden: boolean },
+  mypageId?: string
+) {
+  try {
+    let query = supabaseClient.from('certificates').update(updates).eq('id', certificateId);
+
+    // mypageId가 제공된 경우 추가 검증
+    if (mypageId) {
+      query = query.eq('mypage_id', mypageId);
+    }
+
+    const { data, error } = await query.select();
+
+    if (error) {
+      return { data: null, error: new Error(error.message) };
+    }
+
+    return { data: data?.[0] || null, error: null };
   } catch (err) {
     return {
       data: null,

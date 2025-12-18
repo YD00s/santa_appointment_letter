@@ -1,6 +1,5 @@
 import { supabase } from '@/lib/supabase/supabase';
 import { Certificate } from '@/types/Certificate';
-import { cookies as nextCookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import MyPageContent from './MyPageContent';
@@ -67,9 +66,10 @@ export default async function MyPage(props: PageProps) {
         pageOwner={userData}
         initialConfig={initialConfig}
         initialCertificates={certificates}
+        initialVisible={mypageData.visible}
       />
     );
   } catch (err) {
-    throw err; // ❗ error.tsx로 위임
+    throw err;
   }
 }

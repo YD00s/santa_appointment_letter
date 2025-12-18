@@ -7,10 +7,6 @@ import {
 import { fetchMypageByUserId, fetchUserByKakaoId, upsertMypage } from '@/utils/server/safeFetch';
 import { cookies } from 'next/headers';
 
-/**
- * GET /api/mypage?userId={kakao_id}
- * 마이페이지 설정 조회
- */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const kakaoId = searchParams.get('userId');
@@ -39,6 +35,7 @@ export async function GET(request: Request) {
       wallType: 0,
       floorType: 0,
       objectType: 0,
+      visible: false, // ✅ 기본값 추가
     });
   }
 
@@ -46,6 +43,7 @@ export async function GET(request: Request) {
     wallType: mypageData.wall_type,
     floorType: mypageData.floor_type,
     objectType: mypageData.object_type,
+    visible: mypageData.visible ?? false, // ✅ visible 필드 추가
   });
 }
 

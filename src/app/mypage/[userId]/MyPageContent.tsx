@@ -4,7 +4,7 @@ import { useAuthContext } from '@/contexts/AuthContext';
 import { floorImages, objectImages, wallImages } from '@/lib/constants/images';
 import { Certificate } from '@/types/Certificate';
 import { User } from '@/types/User';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import CertificateModal from './components/CertificateModal';
 import EditTab from './components/EditTab';
@@ -23,17 +23,20 @@ interface MyPageContentProps {
   pageOwner: User;
   initialConfig: initialConfig;
   initialCertificates: Certificate[];
+  initialVisible?: boolean; // ✅ 초기 visible 상태 추가
 }
 
 export default function MyPageContent({
   pageOwner,
   initialConfig,
   initialCertificates,
+  initialVisible = false,
 }: MyPageContentProps) {
   const { user, isAuthenticated } = useAuthContext();
-  const [certificates, setCertificates] = useState(initialCertificates); // ✅ setCertificates 추가
+  const [certificates, setCertificates] = useState(initialCertificates);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isVisible, setIsVisible] = useState(initialVisible); // ✅ visible 상태 관리
 
   const isOwner = isAuthenticated && user?.kakao_id === pageOwner.kakao_id;
 
@@ -54,7 +57,35 @@ export default function MyPageContent({
     onSuccess: () => setIsEditMode(false),
   });
 
+  // ✅ visible 상태 동기화
+  const fetchVisibleStatus = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/mypage?userId=${pageOwner.kakao_id}`);
+      if (!res.ok) return;
+
+      const result = await res.json();
+      if (result.success && result.data) {
+        setIsVisible(!!result.data.visible);
+      }
+    } catch (err) {
+      console.warn('visible 상태 조회 실패:', err);
+    }
+  }, [pageOwner.kakao_id]);
+
+  useEffect(() => {
+    fetchVisibleStatus();
+  }, [fetchVisibleStatus]);
+
   const closeModal = () => setSelectedCert(null);
+
+  // ✅ 뱃지 클릭 핸들러: 게스트이면서 visible=false일 때 차단
+  const handleSelectCertificate = (cert: Certificate) => {
+    // 주인이거나 visible=true면 모달 열기
+    if (isOwner || isVisible) {
+      setSelectedCert(cert);
+    }
+    // 게스트이면서 visible=false면 아무것도 안 함 (클릭 무시)
+  };
 
   // 삭제 후 UI 업데이트 (낙관적 업데이트)
   const handleDelete = (certificateId: string) => {
@@ -75,8 +106,9 @@ export default function MyPageContent({
           <Room
             images={currentImages}
             certificates={certificates}
-            onSelectCertificate={setSelectedCert}
+            onSelectCertificate={handleSelectCertificate}
             isOwner={isOwner}
+            isVisible={isVisible} // ✅ visible 상태 전달
           />
         </div>
 
@@ -84,6 +116,7 @@ export default function MyPageContent({
           isOwner={isOwner}
           initialName={pageOwner.name ?? ''}
           userId={pageOwner.kakao_id}
+          onVisibilityChange={setIsVisible} // ✅ visible 변경 콜백
         />
 
         <MyPageFooter

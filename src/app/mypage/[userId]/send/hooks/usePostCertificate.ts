@@ -50,11 +50,11 @@ export default function usePostCertificate({
       if (!res.ok) {
         const err = await res.json();
         console.error('임명장 전송 실패:', err);
-        show('임명장 전송에 실패했습니다.');
+        show('임명장 전송에 실패했습니다.', 'error');
       }
     } catch (err) {
       console.error('임명장 전송 오류:', err);
-      show('임명장 전송 중 오류가 발생했습니다.');
+      show('임명장 전송 중 오류가 발생했습니다.', 'error');
     } finally {
       setLoading(false);
     }

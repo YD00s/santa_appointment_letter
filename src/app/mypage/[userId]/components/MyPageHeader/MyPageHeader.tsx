@@ -9,14 +9,16 @@ import { useEffect, useState } from 'react';
 import { useSaveName } from '../../hooks/useSaveName';
 import EditButton from './EditButton';
 import LogoutButton from './LogoutButton';
+import VisibleButton from './VisibleButton';
 
 interface Props {
   isOwner: boolean;
   initialName: string;
   userId: string;
+  onVisibilityChange?: (visible: boolean) => void; // ✅ visible 변경 콜백 추가
 }
 
-export default function MyPageHeader({ isOwner, initialName, userId }: Props) {
+export default function MyPageHeader({ isOwner, initialName, userId, onVisibilityChange }: Props) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState(initialName);
   const { show } = useToast();
@@ -28,7 +30,7 @@ export default function MyPageHeader({ isOwner, initialName, userId }: Props) {
   }, [initialName]);
 
   const handleSaveName = async () => {
-    if (!tempName.trim()) show('한글자 이상 입력해주세요');
+    if (!tempName.trim()) show('한글자 이상 입력해주세요', 'error');
 
     await saveName(tempName, () => {
       show('✅ 저장되었습니다!', 'success');
@@ -82,7 +84,13 @@ export default function MyPageHeader({ isOwner, initialName, userId }: Props) {
       </div>
 
       {isOwner ? (
-        <LogoutButton />
+        <div className="flex items-center gap-2">
+          <VisibleButton
+            userId={userId}
+            onVisibilityChange={onVisibilityChange} // ✅ 콜백 전달
+          />
+          <LogoutButton />
+        </div>
       ) : (
         <IconButton
           href="/"
