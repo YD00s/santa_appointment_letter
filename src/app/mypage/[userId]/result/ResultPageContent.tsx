@@ -52,23 +52,27 @@ export default function ResultPageContent() {
   };
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
       <SnowFall />
 
       {/* 결과 카드 */}
       <div className="relative flex w-full max-w-lg flex-col gap-10">
-        <div className="flex flex-col gap-10 rounded-2xl bg-white/95 p-8 shadow-xl backdrop-blur-sm">
+        <div className="flex flex-col gap-5 rounded-2xl bg-white p-8 shadow-xl backdrop-blur-sm">
           {/* 산타 이름 */}
           <div className="mb-6 text-center">
-            <h1 className="mb-2 text-sm text-gray-500">당신은...</h1>
+            <h1 className="mb-2 text-sm text-gray-500">{ownerName}는 어떤 산타냐면...</h1>
             <h2 className="mb-4 text-3xl font-bold text-gray-900">{santa.title}</h2>
           </div>
 
           {/* 산타 이미지 */}
           <div className="mb-8 flex justify-center">
-            <div className="relative h-48 w-48">
-              <Image src={santa.image} alt={santa.title} fill className="object-contain" />
-            </div>
+            <Image
+              src={santa.image}
+              alt={santa.title}
+              width={200}
+              height={200}
+              className="object-contain"
+            />
           </div>
 
           <Divider />
@@ -79,7 +83,11 @@ export default function ResultPageContent() {
         </div>
 
         {/* 버튼 */}
-        <Button label={`${ownerName}에게 임명장 발급하기`} size="full" onClick={handleGoToSend} />
+        <Button
+          label={`${ownerName}에게 산타 임명장 발급하기`}
+          size="full"
+          onClick={handleGoToSend}
+        />
       </div>
     </main>
   );

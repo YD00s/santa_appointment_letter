@@ -77,7 +77,7 @@ export default function Room({
             const col = index % 3; // 0 = 왼쪽, 1 = 가운데, 2 = 오른쪽
 
             const topPxBase = 205 + row * 70;
-            const leftPx = 60 + col * 70;
+            const leftPx = 55 + col * 70;
             const topPxAdjusted = topPxBase + (col === 1 ? 10 : 0);
 
             const topPercent = (topPxAdjusted / 600) * 100;

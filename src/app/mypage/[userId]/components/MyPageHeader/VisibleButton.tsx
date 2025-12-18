@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 interface Props {
   userId: string; // kakao_id
   initialVisible?: boolean; // 서버에서 전달받은 초기값 (선택사항)
-  onVisibilityChange?: (visible: boolean) => void; // ✅ 부모에게 변경 알림
+  onVisibilityChange?: (visible: boolean) => void; // 부모에게 변경 알림
 }
 
 export default function VisibleButton({
@@ -26,7 +26,7 @@ export default function VisibleButton({
     try {
       const res = await fetch(`/api/mypage?userId=${userId}`);
       if (!res.ok) {
-        console.warn('마이페이지 정보 로드 실패');
+        show('작업실을 찾지 못했어요😢', 'error');
         return;
       }
 
@@ -36,7 +36,7 @@ export default function VisibleButton({
       if (result.success && result.data) {
         const newVisible = !!result.data.visible;
         setIsVisible(newVisible);
-        onVisibilityChange?.(newVisible); // ✅ 부모에게 알림
+        onVisibilityChange?.(newVisible); // 부모에게 알림
       }
     } catch (err) {
       console.warn('초기 공개 상태 로드 실패:', err);
@@ -50,9 +50,7 @@ export default function VisibleButton({
     }
   }, [fetchCurrentStatus, initialVisible]);
 
-  /**
-   * 공개 상태 변경 핸들러
-   */
+  // 공개 상태 변경 핸들러
   const handleToggleVisibility = async () => {
     if (isLoading || !userId) return;
 
@@ -62,7 +60,7 @@ export default function VisibleButton({
 
     // 낙관적 업데이트
     setIsVisible(nextState);
-    onVisibilityChange?.(nextState); // ✅ 부모에게 즉시 알림
+    onVisibilityChange?.(nextState); // 부모에게 즉시 알림
 
     try {
       console.log('📤 PATCH /api/mypage/visible 요청:', { userId, visible: nextState });
@@ -83,7 +81,7 @@ export default function VisibleButton({
 
       if (result.success || response.ok) {
         show(
-          nextState ? '마이페이지가 전체 공개되었습니다.' : '마이페이지가 비공개로 전환되었습니다.',
+          nextState ? '임명장이 전체 공개되었습니다 📖' : '임명장이 비공개되었습니다 📘',
           'success'
         );
       } else {
@@ -92,11 +90,10 @@ export default function VisibleButton({
         throw new Error(result.message || '업데이트에 실패했습니다.');
       }
     } catch (err: any) {
-      console.error('❌ Visibility Update Error:', err);
       // 롤백
       setIsVisible(previousState);
-      onVisibilityChange?.(previousState); // ✅ 롤백도 알림
-      show(err.message || '상태 변경 중 오류가 발생했습니다.', 'error');
+      onVisibilityChange?.(previousState); // 롤백도 알림
+      show(err.message || '업데이트 중 오류가 발생했습니다.', 'error');
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +107,7 @@ export default function VisibleButton({
         onClick={handleToggleVisibility}
         disabled={isLoading}
         size="sm"
-        className="text-gray900"
+        className="text-gray900 text-sm"
       />
     </div>
   );

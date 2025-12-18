@@ -1,7 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import Toast from '@/components/Toast';
+import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ToastItem {
@@ -25,14 +25,17 @@ export function ToastProvider({ children }: ToastProviderProps) {
   const [mounted, setMounted] = useState(false);
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setMounted(true);
-  },[]);
-
-  const show = useCallback((message: React.ReactNode, variant: 'success' | 'error' = 'success', duration = 3000) => {
-    const id = crypto.randomUUID();
-    setToasts(prev => [...prev, { id, message, variant, duration }]);
   }, []);
+
+  const show = useCallback(
+    (message: React.ReactNode, variant: 'success' | 'error' = 'success', duration = 3000) => {
+      const id = crypto.randomUUID();
+      setToasts(prev => [...prev, { id, message, variant, duration }]);
+    },
+    []
+  );
 
   const remove = useCallback((id: string) => {
     setToasts(prev => prev.filter(t => t.id !== id));
@@ -41,13 +44,15 @@ export function ToastProvider({ children }: ToastProviderProps) {
   return (
     <ToastContext.Provider value={{ show }}>
       {children}
-    {mounted&& createPortal(
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-9999 flex flex-col gap-2">
-        {toasts.map(t => (
-          <Toast key={t.id} {...t} onClose={remove} />
-        ))}
-      </div>,document.body
-      )}
+      {mounted &&
+        createPortal(
+          <div className="fixed top-4 left-1/2 z-9999 flex w-full -translate-x-1/2 flex-col items-center gap-2">
+            {toasts.map(t => (
+              <Toast key={t.id} {...t} onClose={remove} />
+            ))}
+          </div>,
+          document.body
+        )}
     </ToastContext.Provider>
   );
 }

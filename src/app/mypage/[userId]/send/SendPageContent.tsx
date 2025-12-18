@@ -7,6 +7,7 @@ import TextArea from '@/components/TextArea';
 import { usePageOwner } from '@/hooks/usePageOwner';
 import { getSantaById } from '@/lib/constants/santaData';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import usePostCertificate from './hooks/usePostCertificate';
@@ -22,6 +23,7 @@ export default function SendPageContent({ santaId, userId }: Props) {
   const [content, setContent] = useState('');
   const [senderName, setSenderName] = useState('');
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const { send, loading } = usePostCertificate({
     userId,
@@ -36,6 +38,7 @@ export default function SendPageContent({ santaId, userId }: Props) {
 
   const onClose = () => {
     setOpen(false);
+    router.push('/');
   };
 
   if (!santaId || ownerLoading) {

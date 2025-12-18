@@ -116,6 +116,7 @@ export default function MyPageContent({
           isOwner={isOwner}
           initialName={pageOwner.name ?? ''}
           userId={pageOwner.kakao_id}
+          isVisible={isVisible}
           onVisibilityChange={setIsVisible} // ✅ visible 변경 콜백
         />
 

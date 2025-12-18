@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { tv } from 'tailwind-variants';
 
 export const style = tv({
-  base: 'inline-flex items-center justify-between rounded-full border px-4 py-2 shadow-md transition-all duration-150 ease-out',
+  base: 'text-gray700 flex w-fit items-center rounded-full border px-4 py-2 shadow-md transition-all duration-150 ease-out',
   variants: {
     variant: {
       success: 'bg-green50 border-green700',
@@ -54,7 +54,7 @@ const Toast = React.forwardRef<HTMLDivElement, ToastProps>(function Toast(
 
   return (
     <div ref={ref} className={clsx(className, classes)} role="status" aria-live="polite" {...rest}>
-      <div className="flex-1">{message}</div>
+      <div>{message}</div>
     </div>
   );
 });

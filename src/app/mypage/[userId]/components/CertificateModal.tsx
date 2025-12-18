@@ -70,23 +70,23 @@ export default function CertificateModal({
     }
   };
 
-  const handleToggleVisibility = async () => {
-    if (!ownerId) {
-      show('사용자 정보를 확인할 수 없습니다.', 'error');
-      return;
-    }
+  // const handleToggleVisibility = async () => {
+  //   if (!ownerId) {
+  //     show('사용자 정보를 확인할 수 없습니다.', 'error');
+  //     return;
+  //   }
 
-    const newIsHidden = !certificate.isHidden;
-    const success = await toggleVisibility(certificate.id, newIsHidden, ownerId);
+  //   const newIsHidden = !certificate.isHidden;
+  //   const success = await toggleVisibility(certificate.id, newIsHidden, ownerId);
 
-    if (success) {
-      // 낙관적 업데이트: 숨김 상태 변경 성공 시 부모 컴포넌트에 알림
-      onToggleVisibility?.(certificate.id, newIsHidden);
-      onClose();
-    } else {
-      show('숨기기에 실패했습니다.', 'error');
-    }
-  };
+  //   if (success) {
+  //     // 낙관적 업데이트: 숨김 상태 변경 성공 시 부모 컴포넌트에 알림
+  //     onToggleVisibility?.(certificate.id, newIsHidden);
+  //     onClose();
+  //   } else {
+  //     show('숨기기에 실패했습니다.', 'error');
+  //   }
+  // };
 
   return (
     <Modal open={true} onClose={onClose}>

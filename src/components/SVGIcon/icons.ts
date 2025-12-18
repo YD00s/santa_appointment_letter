@@ -2,6 +2,7 @@ import IC_X from '@/assets/icons/close.svg';
 import IC_Edit from '@/assets/icons/edit.svg';
 import IC_Google from '@/assets/icons/google.svg';
 import IC_Home from '@/assets/icons/home.svg';
+import IC_Info from '@/assets/icons/info.svg';
 import IC_Kakao from '@/assets/icons/kakao.svg';
 import IC_LeftArrow from '@/assets/icons/left_arrow.svg';
 import IC_Logout from '@/assets/icons/logout.svg';
@@ -16,6 +17,7 @@ export const IconMap = {
   IC_LeftArrow,
   IC_RighttArrow,
   IC_Home,
+  IC_Info,
 } as const;
 export type IconMapTypes = keyof typeof IconMap;
 

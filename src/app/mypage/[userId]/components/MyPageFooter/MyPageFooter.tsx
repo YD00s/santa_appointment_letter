@@ -43,7 +43,11 @@ export default function MyPageFooter({
           label={isEditMode ? '저장하기' : '방 꾸미기'}
           className="mr-2 w-1/2"
           onClick={e => {
-            isEditMode ? onSave() : toggleEditMode();
+            if (isEditMode) {
+              onSave();
+            } else {
+              toggleEditMode();
+            }
             (e.currentTarget as HTMLButtonElement).blur();
           }}
         />
