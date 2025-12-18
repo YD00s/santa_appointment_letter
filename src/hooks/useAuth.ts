@@ -48,7 +48,7 @@ export const useAuth = () => {
    * - 변경된 이름/설정이 있을 경우 즉시 재로드
    */
   const setAuthStatus = useCallback(
-    async (status: boolean, provider?: string, kakaoId?: string, userData?: User) => {
+    async (status: boolean, provider?: string, kakaoId?: string) => {
       if (status && kakaoId) {
         cookies.set('isAuthenticated', 'true', 7);
         cookies.set('authProvider', provider || 'kakao', 7);

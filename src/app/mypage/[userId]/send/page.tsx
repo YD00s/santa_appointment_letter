@@ -1,4 +1,3 @@
-import { SantaId } from '@/lib/constants/santaData';
 import { notFound } from 'next/navigation';
 
 import SendPageContent from './SendPageContent';

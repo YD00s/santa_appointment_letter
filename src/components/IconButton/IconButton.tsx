@@ -1,6 +1,5 @@
 'use client';
 
-import { Slot } from '@radix-ui/react-slot';
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import React from 'react';
@@ -13,7 +12,6 @@ export interface IconButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   'type' | 'onClick'
 > {
-  asChild?: boolean;
   className?: string;
   icon: IconMapTypes; // icon 타입을 .svg 파일로 강제
   variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
@@ -27,8 +25,6 @@ export interface IconButtonProps extends Omit<
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
-      asChild = false,
-      children,
       className,
       icon,
       variant = 'primary',
@@ -43,9 +39,6 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     // STYLES
     const classes = style({ variant, size, disabled });
-
-    // 인터랙션 요소 중첩 방지를 위해 Slot 적용
-    const Comp = asChild ? Slot : 'button';
 
     if (href) {
       return (

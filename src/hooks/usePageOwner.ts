@@ -31,7 +31,7 @@ export function usePageOwner(userId: string) {
         }
 
         // 2. mypage 테이블에서 name_tag 조회
-        const { data: mypageData, error: mypageError } = await supabase
+        const { data: mypageData } = await supabase
           .from('mypage')
           .select('name_tag')
           .eq('user_id', userData.id)

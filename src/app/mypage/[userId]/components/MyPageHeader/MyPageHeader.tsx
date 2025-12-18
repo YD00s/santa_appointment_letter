@@ -14,10 +14,9 @@ interface Props {
   isOwner: boolean;
   initialName: string;
   userId: string;
-  certificateCount: number;
 }
 
-export default function MyPageHeader({ isOwner, initialName, userId, certificateCount }: Props) {
+export default function MyPageHeader({ isOwner, initialName, userId }: Props) {
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState(initialName);
   const { show } = useToast();

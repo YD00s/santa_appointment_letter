@@ -2,13 +2,13 @@
 
 import Button from '@/components/Button/Button';
 import Divider from '@/components/Divider';
+import SnowFall from '@/components/SnowFall';
 import Spinner from '@/components/Spinner';
 import { usePageOwner } from '@/hooks/usePageOwner';
 import { getSantaById } from '@/lib/constants/santaData';
 import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import SnowFall from '@/components/SnowFall';
 
 export default function ResultPageContent() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function ResultPageContent() {
   const { ownerInfo, isLoading: ownerLoading } = usePageOwner(userId);
 
   const [santaId, setSantaId] = useState<number | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const [_mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -53,7 +53,7 @@ export default function ResultPageContent() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
-      <SnowFall/>
+      <SnowFall />
 
       {/* 결과 카드 */}
       <div className="relative flex w-full max-w-lg flex-col gap-10">

@@ -33,11 +33,7 @@ const Toast = React.forwardRef<HTMLDivElement, ToastProps>(function Toast(
   ref
 ) {
   const [visible, setVisible] = useState(false);
-  // 등장
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(raf);
-  }, []);
+
   // 자동 닫기
   useEffect(() => {
     if (duration <= 0) return;

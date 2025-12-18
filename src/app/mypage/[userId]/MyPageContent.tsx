@@ -84,7 +84,6 @@ export default function MyPageContent({
           isOwner={isOwner}
           initialName={pageOwner.name ?? ''}
           userId={pageOwner.kakao_id}
-          certificateCount={certificates.length}
         />
 
         <MyPageFooter

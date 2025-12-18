@@ -10,6 +10,7 @@ import { useState } from 'react';
 interface RoomProps {
   images: RoomImages;
   certificates: any[];
+  isOwner: boolean;
   onSelectCertificate: (cert: Certificate) => void;
 }
 

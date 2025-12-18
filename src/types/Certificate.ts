@@ -6,4 +6,5 @@ export type Certificate = {
   message: string;
   santaId: number;
   createdAt: string;
+  isHidden: boolean;
 };

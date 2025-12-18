@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function MainPageContent() {
-  const [mounted, setMounted] = useState(false);
+  const [_mounted, setMounted] = useState(false);
   // user 객체를 useAuth에서 가져와 리다이렉션에 사용
   const { isAuthenticated, isLoading, user, setAuthStatus } = useAuthContext();
 

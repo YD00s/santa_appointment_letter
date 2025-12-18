@@ -5,14 +5,14 @@ import Modal from '@/components/Modal/Modal';
 import Spinner from '@/components/Spinner';
 import TextArea from '@/components/TextArea';
 import { usePageOwner } from '@/hooks/usePageOwner';
-import { SantaId, getSantaById } from '@/lib/constants/santaData';
+import { getSantaById } from '@/lib/constants/santaData';
 import Image from 'next/image';
 import { useState } from 'react';
 
 import usePostCertificate from './hooks/usePostCertificate';
 
 interface Props {
-  santaId: SantaId;
+  santaId: number;
   userId: string;
 }
 

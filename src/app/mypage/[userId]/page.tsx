@@ -38,11 +38,6 @@ export default async function MyPage(props: PageProps) {
       objectType: mypageData?.object_type ?? 0,
     };
 
-    // 본인 여부
-    const cookieStore = await nextCookies();
-    const kakaoId = cookieStore.get('kakao_id')?.value ?? null;
-    const isOwner = kakaoId === userId;
-
     // 임명장 조회
     let certificates: Certificate[] = [];
 

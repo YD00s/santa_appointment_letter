@@ -27,7 +27,7 @@ export default function MyPageFooter({
     try {
       await navigator.clipboard.writeText(window.location.href);
       show('링크가 복사되었습니다!', 'success');
-    } catch (err) {
+    } catch {
       show('링크 복사에 실패했습니다.', 'error');
     }
   };

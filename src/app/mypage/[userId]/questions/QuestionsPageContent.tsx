@@ -38,7 +38,6 @@ export default function QuestionsPageContent() {
   const handleSubmit = () => {
     const result = getSantaResult(answers);
     // 결과를 query parameter로 전달
-    const resultData = encodeURIComponent(JSON.stringify(result));
     router.push(`/mypage/${userId}/result?santaId=${result.santaId}`);
   };
 
