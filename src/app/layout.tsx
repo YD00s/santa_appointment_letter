@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 
   // 추가 메타 태그
   other: {
-    'theme-color': '#DC2626', // 크리스마스 레드
+    'theme-color': '#1a2847', // 크리스마스 레드
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'apple-mobile-web-app-title': '산타 임명장',
