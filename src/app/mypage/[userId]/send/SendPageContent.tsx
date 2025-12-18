@@ -114,13 +114,9 @@ export default function SendPageContent({ santaId, userId }: Props) {
       <Modal open={open} onClose={onClose}>
         <div className="flex flex-col gap-5">
           <span className="text-lg font-semibold">임명장이 발송되었습니다!</span>
-          <div className="flex flex-col gap-2">
-            <Button
-              href={`/mypage/${userId}`}
-              size="full"
-              label={`${ownerName}의 작업실 방문하기`}
-            />
-            <Button href="/" size="full" variant="secondary" label="메인화면으로 돌아가기" />
+          <div className="flex gap-2">
+            <Button href={`/mypage/${userId}`} size="full" label={`${ownerName}의 작업실`} />
+            <Button href="/" size="full" variant="secondary" label="메인화면" />
           </div>
         </div>
       </Modal>
