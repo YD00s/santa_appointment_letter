@@ -27,9 +27,15 @@ export default function CertificateBadge({
 
   return (
     <div
-      className={`flex h-12 w-12 items-center justify-center transition-transform ${opacity} ${cursorStyle} ${hoverEffect}`}
+      className={`flex items-center justify-center transition-transform ${opacity} ${cursorStyle} ${hoverEffect}`}
     >
-      <Image src={santa.badge} alt={santa.title} fill className="object-contain" />
+      <Image
+        src={santa.badge}
+        alt={santa.title}
+        width={48}
+        height={48}
+        className="object-contain"
+      />
     </div>
   );
 }

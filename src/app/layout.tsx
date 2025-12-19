@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png', // 1200x630px 권장
+        url: '/og-image.webp', // 1200x630px 권장
         width: 1200,
         height: 630,
         alt: '산타 임명장 - 친구에게 어울리는 산타 찾고 메세지 보내기',
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '산타 임명장 - 나는 어떤 산타일까?',
     description: '친구에게 어울리는 산타를 찾아주세요! 8가지 산타 유형 테스트와 따뜻한 편지 보내기',
-    images: ['/og-image.png'],
+    images: ['/og-image.webp'],
   },
 
   // 추가 메타 태그
@@ -74,10 +74,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico' },
-      { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon-16x16.webp', sizes: '16x16', type: 'image/png' },
+      { url: '/icon-32x32.webp', sizes: '32x32', type: 'image/png' },
     ],
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    apple: [{ url: '/apple-touch-icon.webp', sizes: '180x180', type: 'image/png' }],
   },
 
   // 매니페스트

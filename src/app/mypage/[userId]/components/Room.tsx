@@ -52,23 +52,22 @@ export default function Room({
     <div className="relative h-200 w-full flex-1 overflow-hidden">
       <div className="-z-10 flex h-full flex-col">
         {/* 벽 */}
-        <div
-          className="flex-1 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${images.wall})` }}
-        />
+        <div className="h-140 w-full bg-top" style={{ backgroundImage: `url(${images.wall})` }} />
         {/* 바닥 */}
         <div className="h-75 w-full bg-top" style={{ backgroundImage: `url(${images.floor})` }} />
       </div>
       {/* 오브젝트 */}
       <div className="absolute bottom-48 left-1/2 -translate-x-1/2">
-        <div className="relative h-140 w-70">
-          <Image
-            src={images.object}
-            alt="오브젝트"
-            fill
-            unoptimized
-            className="pointer-events-none h-auto w-full"
-          />
+        <div className="relative">
+          <div className="h-110 w-60">
+            <Image
+              src={images.object}
+              alt="오브젝트"
+              fill
+              className="pointer-events-none object-contain"
+              priority
+            />
+          </div>
           <span className="absolute bottom-6 left-1/2 min-w-12 -translate-x-1/2 rounded-full bg-white/50 text-center text-sm font-medium backdrop-blur-xs">
             {currentPage + 1} / {totalPages}
           </span>

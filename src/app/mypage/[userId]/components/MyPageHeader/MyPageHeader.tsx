@@ -101,8 +101,8 @@ export default function MyPageHeader({
                 <IconButton
                   icon="IC_Info"
                   ariaLabel="정보"
-                  size="lg"
-                  variant="ghost"
+                  size="md"
+                  variant="tertiary"
                   className="text-gray700"
                   onClick={() => setOpen(true)}
                 />
