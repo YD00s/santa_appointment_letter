@@ -25,8 +25,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   1: {
     miniTitle: '난로 앞에서 한잔',
     title: '☕ 코코아 산타 ☕',
-    image: '/assets/images/santas/santa-1.webp',
-    badge: '/assets/images/badges/santa-1.webp',
+    image: '/assets/images/santas/santa-1.png',
+    badge: '/assets/images/badges/santa-1.png',
     description: `
         너는 따뜻한 온기와 잔잔한 상상력을 품은 코코아 산타야.
         따뜻한 코코아 한 잔과 함께 새벽녘 난로 앞에서 차분히 선물을 준비하지.
@@ -40,8 +40,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   2: {
     miniTitle: '🍪 기분이 저기압일 땐 쿠키앞으로 🍪',
     title: '쿠키 산타',
-    image: '/assets/images/santas/santa-2.webp',
-    badge: '/assets/images/badges/santa-2.webp',
+    image: '/assets/images/santas/santa-2.png',
+    badge: '/assets/images/badges/santa-2.png',
     description: `
         너는 섬세하게 계량해서 만들어진 쿠키 산타야.
         마지막 아이싱까지 신경써서 마무리한 티가 나지.
@@ -55,8 +55,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   3: {
     miniTitle: '💪 흔들림 없는 든든함 💪',
     title: '근육 산타',
-    image: '/assets/images/santas/santa-3.webp',
-    badge: '/assets/images/badges/santa-3.webp',
+    image: '/assets/images/santas/santa-3.png',
+    badge: '/assets/images/badges/santa-3.png',
     description: `
         너는 어떤 눈보라도 묵묵히 뚫고 나아가는 든든한 근육 산타야.
         체크리스트와 가죽벨트는 너의 상징이며, 운동 루틴처럼 계획된 루트를 절대 어기지 않아.
@@ -70,8 +70,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   4: {
     miniTitle: '🦌 누구보다 빠르게 달려가는 🦌',
     title: '루돌프 산타',
-    image: '/assets/images/santas/santa-4.webp',
-    badge: '/assets/images/badges/santa-4.webp',
+    image: '/assets/images/santas/santa-4.png',
+    badge: '/assets/images/badges/santa-4.png',
     description: `
       너는 매일매일 새로운 시도를 해보는 루돌프 산타야.
       창문, 지붕, 얼음 협곡 등 어디든 활기차게 돌파하고 개척하지.
@@ -85,8 +85,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   5: {
     miniTitle: '🌟 반짝반짝 빛나는 🌟',
     title: '오너먼트 산타',
-    image: '/assets/images/santas/santa-5.webp',
-    badge: '/assets/images/badges/santa-5.webp',
+    image: '/assets/images/santas/santa-5.png',
+    badge: '/assets/images/badges/santa-5.png',
     description: `
       너는 반짝거리는 성격으로 순식간에 어디든 파티로 바꿔버리는 오너먼트 산타야.
       빛나는 눈송이와 즉석 이벤트로 모두를 활짝 웃게 만들어주지.
@@ -100,8 +100,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   6: {
     miniTitle: '🧣 따뜻~한 온기를 전하는 🧣',
     title: '목도리 산타',
-    image: '/assets/images/santas/santa-6.webp',
-    badge: '/assets/images/badges/santa-6.webp',
+    image: '/assets/images/santas/santa-6.png',
+    badge: '/assets/images/badges/santa-6.png',
     description: `
       너는 한 사람의 마음이라도 더 따뜻하게 만들기 위해 움직이는 목도리 산타야.
       손뜨개 스카프, 따뜻한 차, 감사 카드 등 마음이 담긴 선물 전문이지.
@@ -115,8 +115,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   7: {
     miniTitle: '🧦 최고의 선물을 챙겨주는 🧦',
     title: '양말 산타',
-    image: '/assets/images/santas/santa-7.webp',
-    badge: '/assets/images/badges/santa-7.webp',
+    image: '/assets/images/santas/santa-7.png',
+    badge: '/assets/images/badges/santa-7.png',
     description: `
       너는 양말 속에 숨어 발소리조차 남기지 않고 완벽하게 임무를 수행하는 양말 산타야.
       깊은 밤 별빛 아래, 관찰과 분석 끝에 최적의 장소에 최고의 선물을 남기지.
@@ -130,8 +130,8 @@ export const SANTA_DATA: Record<SantaId, SantaData> = {
   8: {
     miniTitle: '🎅 나만 믿고 따라와! 🎅',
     title: '레드 산타',
-    image: '/assets/images/santas/santa-8.webp',
-    badge: '/assets/images/badges/santa-8.webp',
+    image: '/assets/images/santas/santa-8.png',
+    badge: '/assets/images/badges/santa-8.png',
     description: `
       너는 계획·정확·속도 모두를 잡은 리더, 레드 산타야.
       루돌프와 호흡을 맞추며 가장 효율적인 배달 루트를 만들어내고 모두를 이끌어주지.

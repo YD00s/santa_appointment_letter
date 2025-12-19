@@ -56,7 +56,7 @@ export default function MyPageHeader({
 
   return (
     <>
-      <div className="absolute top-0 z-10 flex w-full items-start justify-between p-2">
+      <div className="absolute top-0 z-10 flex w-full items-start justify-between px-2">
         <div className="flex flex-col items-start">
           <div className="relative">
             {isEditingName ? (
@@ -91,12 +91,21 @@ export default function MyPageHeader({
                   {isOwner && !isEditingName && (
                     <EditButton
                       onClick={() => setIsEditingName(true)}
-                      className="absolute -right-3 -bottom-4"
+                      className="absolute -right-5 -bottom-3"
                     />
                   )}
-                  <h1 className="rounded bg-[#b59059] px-3 py-2 text-[20px] font-bold shadow-md">
-                    {`${tempName} 산타의 작업실`}
-                  </h1>
+                  <div className="flex items-center justify-center">
+                    <h1 className="mt-5.5 mb-5 ml-3 h-fit w-50 text-center text-[20px] font-bold">{`${tempName} 산타의 작업실`}</h1>
+                    <div className="absolute top-0 left-0 -z-10 h-10 w-57">
+                      <Image
+                        src="/nametag.png"
+                        alt="이름판"
+                        width={240}
+                        height={40}
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <IconButton
                   icon="IC_Info"
@@ -112,7 +121,7 @@ export default function MyPageHeader({
         </div>
 
         {isOwner ? (
-          <div className="flex items-center gap-2">
+          <div className="mt-2 flex items-center gap-2">
             <VisibleButton userId={userId} onVisibilityChange={onVisibilityChange} />
             <LogoutButton />
           </div>
