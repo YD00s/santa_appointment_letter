@@ -9,7 +9,7 @@ export const floorImages = [
   '/assets/images/floors/floor3.webp',
 ];
 export const objectImages = [
-  '/assets/images/objects/Snowman.webp',
-  '/assets/images/objects/Rudolph.webp',
-  '/assets/images/objects/Tree.webp',
+  '/assets/images/objects/Snowman.png',
+  '/assets/images/objects/Rudolph.png',
+  '/assets/images/objects/Tree.png',
 ];
