@@ -59,13 +59,13 @@ export default function Room({
       {/* 오브젝트 */}
       <div className="absolute bottom-48 left-1/2 -translate-x-1/2">
         <div className="relative">
-          <div className="h-110 w-60">
+          <div className="h-120 w-70">
             <Image
               src={images.object}
               alt="오브젝트"
               fill
-              className="pointer-events-none object-contain"
               priority
+              className="pointer-events-none object-contain"
             />
           </div>
           <span className="absolute bottom-6 left-1/2 min-w-12 -translate-x-1/2 rounded-full bg-white/50 text-center text-sm font-medium backdrop-blur-xs">

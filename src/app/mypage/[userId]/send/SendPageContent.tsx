@@ -83,7 +83,7 @@ export default function SendPageContent({ santaId, userId }: Props) {
                 type="text"
                 value={senderName}
                 onChange={e => setSenderName(e.target.value)}
-                placeholder="당신의 닉네임을 입력하세요"
+                placeholder="당신의 닉네임을 입력하세요 (최대 15자)"
                 className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-red-500 focus:outline-none"
                 maxLength={15}
               />

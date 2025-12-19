@@ -4,6 +4,7 @@ import SnowFall from '@/components/SnowFall';
 import Spinner from '@/components/Spinner';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { useKakaoLogin } from '@/hooks/useKakaoLogin';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -48,16 +49,24 @@ export default function MainPageContent() {
   }
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#1a2847] px-6 py-24 text-center">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden text-center">
       <SnowFall />
-      <div className="relative max-w-md rounded-2xl bg-white/90 p-8 backdrop-blur-sm">
+      <div className="relative flex max-w-md flex-col items-center rounded-2xl bg-white/90 p-8 backdrop-blur-sm">
+        <Image
+          src="/assets/images/santaHat.png"
+          width={50}
+          height={50}
+          alt="아이콘"
+          className="transition-transform hover:scale-110 active:scale-100"
+        />
         <h1 className="mb-4 text-3xl font-bold">산타 임명장</h1>
-        <p className="mb-8 text-gray-600">
+        <p className="mb-5 leading-7 text-gray-600">
           우리 모두는 누군가에게 선물을 준 산타야.
           <br />
           올해 나는 주변인들에게 어떤 산타였을까?
+          <br />
+          산타 작업실을 만들고 임명장을 받아봐!
         </p>
-
         <AuthButtons onKakaoLogin={handleKakaoLogin} />
       </div>
     </main>

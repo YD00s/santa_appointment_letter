@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/Button/Button';
+import { usePageOwner } from '@/hooks/usePageOwner';
 import { QUESTIONS } from '@/lib/questions';
 import { getSantaResult } from '@/lib/santas';
 import { useParams, useRouter } from 'next/navigation';
@@ -20,6 +21,9 @@ export default function QuestionsPageContent() {
   const isLastQuestion = currentIndex === QUESTIONS.length - 1;
   const isFirstQuestion = currentIndex === 0;
   const hasAnswered = answers[currentIndex] !== undefined;
+
+  const { ownerInfo, isLoading: ownerLoading } = usePageOwner(userId);
+  const ownerName = ownerLoading ? '...' : `${ownerInfo?.name} 산타` || '친구';
 
   const handleNext = () => {
     if (isLastQuestion) {
@@ -67,6 +71,7 @@ export default function QuestionsPageContent() {
           <QuestionCard
             number={currentIndex}
             title={currentQuestion.title}
+            ownerName={ownerName}
             items={currentQuestion.items}
             selected={answers[currentIndex]}
             onSelect={v => setAnswers({ ...answers, [currentIndex]: v })}

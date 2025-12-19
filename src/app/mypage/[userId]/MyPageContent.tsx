@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuthContext } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastProvider';
 import { floorImages, objectImages, wallImages } from '@/lib/constants/images';
 import { Certificate } from '@/types/Certificate';
 import { User } from '@/types/User';
@@ -23,7 +24,7 @@ interface MyPageContentProps {
   pageOwner: User;
   initialConfig: initialConfig;
   initialCertificates: Certificate[];
-  initialVisible?: boolean; // ✅ 초기 visible 상태 추가
+  initialVisible?: boolean;
 }
 
 export default function MyPageContent({
@@ -36,8 +37,9 @@ export default function MyPageContent({
   const [certificates, setCertificates] = useState(initialCertificates);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isVisible, setIsVisible] = useState(initialVisible); // ✅ visible 상태 관리
+  const [isVisible, setIsVisible] = useState(initialVisible);
 
+  const { show } = useToast();
   const isOwner = isAuthenticated && user?.kakao_id === pageOwner.kakao_id;
 
   // 룸 설정
@@ -57,7 +59,6 @@ export default function MyPageContent({
     onSuccess: () => setIsEditMode(false),
   });
 
-  // ✅ visible 상태 동기화
   const fetchVisibleStatus = useCallback(async () => {
     try {
       const res = await fetch(`/api/mypage?userId=${pageOwner.kakao_id}`);
@@ -78,21 +79,18 @@ export default function MyPageContent({
 
   const closeModal = () => setSelectedCert(null);
 
-  // ✅ 뱃지 클릭 핸들러: 게스트이면서 visible=false일 때 차단
   const handleSelectCertificate = (cert: Certificate) => {
-    // 주인이거나 visible=true면 모달 열기
     if (isOwner || isVisible) {
       setSelectedCert(cert);
+    } else {
+      show('비공개된 작업실이에요!', 'success');
     }
-    // 게스트이면서 visible=false면 아무것도 안 함 (클릭 무시)
   };
 
-  // 삭제 후 UI 업데이트 (낙관적 업데이트)
   const handleDelete = (certificateId: string) => {
     setCertificates(prev => prev.filter(cert => cert.id !== certificateId));
   };
 
-  // 숨김 토글 후 UI 업데이트 (낙관적 업데이트)
   const handleToggleVisibility = (certificateId: string, isHidden: boolean) => {
     setCertificates(prev =>
       prev.map(cert => (cert.id === certificateId ? { ...cert, isHidden } : cert))
@@ -101,14 +99,14 @@ export default function MyPageContent({
 
   return (
     <>
-      <div className="relative z-20 flex h-163 w-full flex-col">
+      <div className="relative z-20 flex h-170 w-full flex-col">
         <div>
           <Room
             images={currentImages}
             certificates={certificates}
             onSelectCertificate={handleSelectCertificate}
             isOwner={isOwner}
-            isVisible={isVisible} // ✅ visible 상태 전달
+            isVisible={isVisible}
           />
         </div>
 
@@ -117,7 +115,7 @@ export default function MyPageContent({
           initialName={pageOwner.name ?? ''}
           userId={pageOwner.kakao_id}
           isVisible={isVisible}
-          onVisibilityChange={setIsVisible} // ✅ visible 변경 콜백
+          onVisibilityChange={setIsVisible}
         />
 
         <MyPageFooter
