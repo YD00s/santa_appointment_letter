@@ -24,7 +24,7 @@ export default function usePostCertificate({
 
   const send = async () => {
     console.log(receiverName);
-    if (!userId || !senderName.trim() || !receiverName.trim() || !content.trim()) {
+    if (!userId || !senderName.trim() || !content.trim()) {
       console.warn('모든 값이 로드 되지 않았습니다.');
       return;
     }
