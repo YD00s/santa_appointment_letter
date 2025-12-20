@@ -1,6 +1,5 @@
 'use client';
-import { supabase } from '@/lib/supabase/supabase';
-import { KakaoLoginData, User } from '@/types/User';
+import { User } from '@/types/User';
 import { useEffect, useState } from 'react';
 
 // Kakao SDK가 전역에 정의됨을 선언
@@ -26,7 +25,6 @@ interface AuthHookApi {
 // 이렇게 하면 AuthContext를 직접 가져올 필요 없이 의존성을 주입할 수 있습니다.
 export const useKakaoLogin = (authApi: AuthHookApi) => {
   const [isInitialized, setIsInitialized] = useState(false);
-  // [수정]: 초기화 시도 중 상태를 명확히 반환합니다.
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
@@ -82,32 +80,31 @@ export const useKakaoLogin = (authApi: AuthHookApi) => {
               url: '/v2/user/me',
               success: async (response: any) => {
                 try {
-                  const userData: KakaoLoginData = {
-                    kakao_id: response.id.toString(),
-                  };
+                  const kakaoId = response.id.toString();
 
-                  // Supabase upsert
-                  const { data, error } = await supabase
-                    .from('users')
-                    .upsert(
-                      {
-                        ...userData,
-                      },
-                      { onConflict: 'kakao_id' }
-                    )
-                    .select()
-                    .single();
+                  // ✅ 클라이언트에서 직접 Supabase 접근 대신 API 호출
+                  const saveRes = await fetch('/api/auth/kakao/save', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ kakaoId }),
+                  });
 
-                  if (error) {
-                    console.error('❌ Supabase 저장 실패:', error);
-                    resolve({ success: false, error });
+                  if (!saveRes.ok) {
+                    const errorData = await saveRes.json();
+                    console.error('❌ 사용자 저장 실패:', errorData);
+                    resolve({ success: false, error: errorData });
                     return;
                   }
 
-                  // setAuthStatus를 호출하여 인증 상태와 쿠키를 업데이트하고, user 데이터를 AuthContext에 저장합니다.
-                  authApi.setAuthStatus(true, 'kakao', data.kakao_id, data);
+                  const result = await saveRes.json();
+                  const userData = result.user;
 
-                  resolve({ success: true, provider: 'kakao', user: data });
+                  // setAuthStatus를 호출하여 인증 상태와 쿠키를 업데이트
+                  authApi.setAuthStatus(true, 'kakao', userData.kakao_id, userData);
+
+                  resolve({ success: true, provider: 'kakao', user: userData });
                 } catch (error) {
                   console.error('❌ 사용자 정보 저장 오류:', error);
                   resolve({ success: false, error });

@@ -11,7 +11,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { useDeleteCertificate } from '../hooks/useDeleteCertificate';
-import { useToggleCertificateVisibility } from '../hooks/useToggleCertificateVisibility';
+
+// import { useToggleCertificateVisibility } from '../hooks/useToggleCertificateVisibility';
 
 interface CertificateModalProps {
   certificate: Certificate | null;
@@ -30,11 +31,11 @@ export default function CertificateModal({
   isOwner = false,
   ownerId,
   onDelete,
-  onToggleVisibility,
+  // onToggleVisibility,
 }: CertificateModalProps) {
   const { show } = useToast();
   const { deleteCertificate, isDeleting } = useDeleteCertificate();
-  const { toggleVisibility } = useToggleCertificateVisibility();
+  // const { toggleVisibility } = useToggleCertificateVisibility();
   const [showConfirm, setShowConfirm] = useState(false);
 
   if (!certificate) {

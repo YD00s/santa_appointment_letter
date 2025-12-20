@@ -3,7 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false,
+  },
+});
 
 interface FetchUserByKakaoIdResult {
   data: { id: string } | null;
@@ -170,8 +175,6 @@ export async function upsertMypage(mypageData: {
 
 export async function updateMyPageVisibility(updateData: { userId: string; visible: boolean }) {
   try {
-    console.log('🔍 updateMyPageVisibility 호출:', updateData);
-
     const { data, error } = await supabaseClient
       .from('mypage')
       .update({ visible: updateData.visible })
@@ -179,17 +182,12 @@ export async function updateMyPageVisibility(updateData: { userId: string; visib
       .select()
       .maybeSingle();
 
-    console.log('📊 Supabase 응답:', { data, error });
-
     if (error) {
-      console.error('❌ Supabase 에러:', error);
       return { data: null, error: new Error(error.message) };
     }
 
-    console.log('✅ visible 업데이트 성공:', data);
     return { data, error: null };
   } catch (err) {
-    console.error('💥 예외 발생:', err);
     return { data: null, error: err instanceof Error ? err : new Error('Unknown error') };
   }
 }

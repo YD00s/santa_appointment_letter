@@ -4,7 +4,3 @@ export type User = {
   created_at: string;
   name?: string;
 };
-
-export type KakaoLoginData = {
-  kakao_id: string;
-};

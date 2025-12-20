@@ -7,53 +7,57 @@ import {
 import { fetchMypageByUserId, fetchUserByKakaoId, upsertMypage } from '@/utils/server/safeFetch';
 import { cookies } from 'next/headers';
 
+// api/mypage/route.ts
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const kakaoId = searchParams.get('userId');
+  try {
+    console.log('=== GET /api/mypage 시작 ===');
 
-  if (!kakaoId) {
-    return handleServerError('BAD_REQUEST', 'userId 파라미터가 필요합니다.');
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+
+    console.log('userId:', userId);
+
+    if (!userId) {
+      return handleServerError('BAD_REQUEST', 'userId 파라미터가 필요합니다.');
+    }
+
+    // kakao_id로 사용자 조회
+    const { data: userData, error: userError } = await fetchUserByKakaoId(userId);
+
+    if (userError || !userData) {
+      return successResponse(null);
+    }
+
+    // user_id로 mypage 조회
+    const { data: mypageData, error: mypageError } = await fetchMypageByUserId(userData.id);
+
+    if (mypageError) {
+      return handleServerError(
+        'INTERNAL_ERROR',
+        'mypage 조회 중 오류가 발생했습니다.',
+        mypageError
+      );
+    }
+
+    if (!mypageData) {
+      return successResponse({
+        visible: true,
+        wall_type: 1,
+        floor_type: 1,
+        object_type: 1,
+      });
+    }
+
+    return successResponse(mypageData);
+  } catch (error) {
+    return handleServerError('INTERNAL_ERROR', '서버 오류가 발생했습니다.', error);
   }
-
-  // 1. kakao_id로 사용자 조회
-  const { data: userData, error: userError } = await fetchUserByKakaoId(kakaoId);
-
-  if (userError) {
-    return handleServerError('NOT_FOUND', '사용자를 찾을 수 없습니다.', userError);
-  }
-
-  // 2. mypage 설정 조회
-  const { data: mypageData, error: mypageError } = await fetchMypageByUserId(userData!.id);
-
-  if (mypageError) {
-    return handleServerError('INTERNAL_ERROR', '설정 조회 중 오류가 발생했습니다.', mypageError);
-  }
-
-  // 데이터가 없으면 기본값 반환
-  if (!mypageData) {
-    return successResponse({
-      wallType: 1,
-      floorType: 1,
-      objectType: 1,
-      visible: false, // ✅ 기본값 추가
-    });
-  }
-
-  return successResponse({
-    wallType: mypageData.wall_type,
-    floorType: mypageData.floor_type,
-    objectType: mypageData.object_type,
-    visible: mypageData.visible ?? false, // ✅ visible 필드 추가
-  });
 }
 
-/**
- * PATCH /api/mypage
- * 마이페이지 설정 저장
- */
 export async function PATCH(req: Request) {
   try {
     const body = await req.json();
+
     const { userId, wallType, floorType, objectType } = body;
 
     // 필수 파라미터 검증
@@ -89,13 +93,12 @@ export async function PATCH(req: Request) {
     // 사용자 UUID 조회
     const { data: userData, error: userError } = await fetchUserByKakaoId(userId);
 
-    if (userError) {
+    if (userError || !userData) {
       return handleServerError('NOT_FOUND', '사용자를 찾을 수 없습니다.', userError);
     }
 
-    // mypage 설정 upsert
     const { error: upsertError } = await upsertMypage({
-      user_id: userData!.id,
+      user_id: userData.id,
       wall_type: wallType,
       floor_type: floorType,
       object_type: objectType,

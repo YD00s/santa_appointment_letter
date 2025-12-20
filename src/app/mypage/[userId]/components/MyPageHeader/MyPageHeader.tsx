@@ -126,7 +126,7 @@ export default function MyPageHeader({
             <LogoutButton />
           </div>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="mt-2 flex items-center gap-2">
             <span className="rounded-lg bg-white/20 px-2 py-1">
               {isVisible ? '공개' : '비공개'}
             </span>

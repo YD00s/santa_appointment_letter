@@ -23,7 +23,8 @@ export default function QuestionsPageContent() {
   const hasAnswered = answers[currentIndex] !== undefined;
 
   const { ownerInfo, isLoading: ownerLoading } = usePageOwner(userId);
-  const ownerName = ownerLoading ? '...' : `${ownerInfo?.name} 산타` || '친구';
+
+  const ownerName = ownerLoading ? '...' : ownerInfo?.name ? `${ownerInfo.name} 산타` : '친구';
 
   const handleNext = () => {
     if (isLastQuestion) {
