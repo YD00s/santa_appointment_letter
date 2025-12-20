@@ -14,7 +14,7 @@ export interface IconButtonProps extends Omit<
 > {
   className?: string;
   icon: IconMapTypes; // icon 타입을 .svg 파일로 강제
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'kakao';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   ariaLabel: string;

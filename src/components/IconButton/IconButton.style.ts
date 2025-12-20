@@ -8,6 +8,7 @@ export const style = tv({
       secondary: 'bg-btn-secondary text-btn-secondary',
       tertiary: 'bg-btn-tertiary text-btn-tertiary',
       ghost: 'bg-btn-ghost text-btn-ghost',
+      kakao: 'bg-btn-kakao text-btn-kakao',
     },
     size: {
       sm: 'h-8 w-8',

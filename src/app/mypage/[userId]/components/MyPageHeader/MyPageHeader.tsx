@@ -130,13 +130,7 @@ export default function MyPageHeader({
             <span className="rounded-lg bg-white/20 px-2 py-1">
               {isVisible ? '공개' : '비공개'}
             </span>
-            <IconButton
-              href="/"
-              icon="IC_Home"
-              variant="tertiary"
-              ariaLabel="메인화면으로 이동"
-              className="text-gray900"
-            />
+            <IconButton href="/" icon="IC_Kakao" variant="kakao" ariaLabel="메인화면으로 이동" />
           </div>
         )}
       </div>
