@@ -40,6 +40,31 @@ export default function Modal({
     }
   }, []);
 
+  // 모달 열릴 때 body 스크롤 막기
+  useEffect(() => {
+    if (open) {
+      // 현재 스크롤 위치 저장
+      const scrollY = window.scrollY;
+
+      // body 스크롤 막기
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+
+      // 클린업: 모달 닫힐 때 원래대로
+      return () => {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+
+        // 원래 스크롤 위치로 복원
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [open]);
+
   if (!open) return null;
   if (!portalElement) return null;
 

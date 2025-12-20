@@ -91,7 +91,7 @@ export default function CertificateModal({
 
   return (
     <Modal open={true} onClose={onClose}>
-      <div className="flex w-80 flex-col items-center space-y-4">
+      <div className="custom-scrollbar flex h-130 w-80 flex-col items-center gap-2 overflow-auto pr-1">
         <div className="flex flex-col items-center">
           <span className="mb-4 text-2xl font-bold">임명장</span>
           <span className="text-gray700 my-2 w-full text-right text-sm">이름 {name}</span>
@@ -111,7 +111,7 @@ export default function CertificateModal({
           <h3 className="text-md font-bold text-gray-800">{certificate.senderName}</h3>
         </div>
 
-        <div className="custom-scrollbar max-h-36 w-full overflow-y-auto rounded-lg bg-gray-50 p-4">
+        <div className="max-h-36 w-full rounded-lg bg-gray-50 p-4">
           <p className="text-sm whitespace-pre-wrap text-gray-700">{certificate.message}</p>
         </div>
 
