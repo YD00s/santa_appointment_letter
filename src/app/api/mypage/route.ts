@@ -32,9 +32,9 @@ export async function GET(request: Request) {
   // 데이터가 없으면 기본값 반환
   if (!mypageData) {
     return successResponse({
-      wallType: 0,
-      floorType: 0,
-      objectType: 0,
+      wallType: 1,
+      floorType: 1,
+      objectType: 1,
       visible: false, // ✅ 기본값 추가
     });
   }

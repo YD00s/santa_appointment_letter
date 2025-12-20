@@ -65,7 +65,7 @@ export default function MyPageContent({
       if (!res.ok) return;
 
       const result = await res.json();
-      if (result.success && result.data) {
+      if (result.success && result.data && result.data.visible !== undefined) {
         setIsVisible(!!result.data.visible);
       }
     } catch (err) {

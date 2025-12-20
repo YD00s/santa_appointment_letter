@@ -75,15 +75,35 @@ export async function GET(request: NextRequest) {
     }
 
     if (!existingUser) {
-      // 신규 사용자 생성
-      const { error: insertError } = await supabase.from('users').insert({
-        kakao_id: kakaoId,
-        created_at: new Date().toISOString(),
-      });
+      // 신규 사용자 생성 - .select()로 생성된 user 정보 받기
+      const { data: newUser, error: insertError } = await supabase
+        .from('users')
+        .insert({
+          kakao_id: kakaoId,
+          created_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
 
       if (insertError) {
         console.error('사용자 생성 오류:', insertError);
         throw new Error('사용자 생성 실패');
+      }
+
+      // 신규 사용자면 mypage도 함께 생성
+      if (newUser) {
+        const { error: mypageError } = await supabase.from('mypage').insert({
+          user_id: newUser.id,
+          visible: true,
+          wall_type: 1,
+          floor_type: 1,
+          object_type: 1,
+        });
+
+        if (mypageError) {
+          console.error('마이페이지 생성 오류:', mypageError);
+          // 에러가 나도 로그인은 진행 (나중에 수동으로 생성 가능)
+        }
       }
     }
 
