@@ -140,7 +140,7 @@ export default function MyPageHeader({
             <div>
               <Image src="/assets/images/github.png" alt="github icon" width={20} height={20} />
             </div>
-            <Link href="https://github.com/YD00s/santa_appointment_letter">Github 주소</Link>
+            <Link href="https://github.com/Bangdayeon/santa_appointment_letter">Github 주소</Link>
           </div>
           <div className="flex items-center gap-1">
             <div>
